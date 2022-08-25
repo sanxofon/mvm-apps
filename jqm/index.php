@@ -20,10 +20,7 @@ include("appHeader.php");
       <input type="range" name="slider" id="slider" data-popup-enabled="true" min="1" max="6" value="1" onchange="cambiarFondo(this.value);">
     </form>
     <hr>
-    <p>Esta es una plantilla de app (<i>app template</i>) para móviles basada en <i>JQuery Mobile</i>. Es muy fácil de implementar con <i>JQuery</i>  en sus versiones 1 o 2. Tiene una extensa documentación y hay muchos ejemplos en línea para probar.</p>
-    <p>Esta plantilla (al igual que las <a href="../" target="_blank">otras</a>) incluye todo lo necesario para funcionar como una <i>Progressive Web App</i> (PWA)
-    <hr>
-    <p> Las páginas internas abrirse con efectos de transición definidos en el <a href="#two" data-transition="slideup">enlace</a></p>
+    <p> Las páginas internas pueden abrirse con efectos de transición definidos en el <a href="#two" data-transition="slideup">enlace</a></p>
 		<h3>Botones con enlaces a páginas internas:</h3>
 		<p><a href="#two" data-transition="slideup" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-icon-forward ui-btn-icon-left">Mostrar segunda página</a></p>
 		<p><a href="#popup" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-icon-action ui-btn-icon-left" data-rel="dialog" data-transition="pop">Mostrar "popup"</a></p>
