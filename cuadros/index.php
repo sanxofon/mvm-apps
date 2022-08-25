@@ -8,8 +8,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>Arrastrar cuadros</h1>
-        <?php for($m=3;$m<=5;$m++){ $mm = $m*$m; ?>
+        <h1>Cuadros mágicos</h1>
+        <?php for($m=3;$m<=6;$m++){ $mm = $m*$m; ?>
         <div class="cuadro">
             <div class="grid">
                 <div id="grid<?php echo $m."x".$m; ?>">
@@ -18,7 +18,9 @@
                 <?php } ?>
                 </div>
             </div>
-            <!--button onclick="getOrder(<?php echo $m; ?>)">Calcular <?php echo $m."x".$m; ?></button-->
+            <button onclick="ordenar(<?php echo $m; ?>)">ORDENAR</button>
+            <button onclick="ordenar(<?php echo $m; ?>,true)">DESORDENAR</button>
+            <button onclick="solucion(<?php echo $m; ?>)">SOLUCIÓN</button>
             <pre><code id="salida<?php echo $m."x".$m; ?>"></code></pre>
         </div>
             <?php } ?>

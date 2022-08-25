@@ -4,6 +4,10 @@ header("Content-type: text/css", true);
 html,body {
 	margin: 0;
 	padding: 0;
+	background-color: #202020;
+}
+h1 {
+	color:#f9f9f9;
 }
 .container {
 	width: 520px;
@@ -12,6 +16,7 @@ html,body {
 }
 .cuadro {
 	background-color: #404040;
+	border: 1px solid #000;
 	padding-top:40px;
 	padding-bottom:20px;
 	margin-top:20px;
@@ -67,7 +72,7 @@ code {
 	width: <?php echo $w+20; ?>px; /* 3*(n*1.1+2)=340 */
 }
 <?php
-	for($m=3;$m<=5;$m++){
+	for($m=3;$m<=6;$m++){
 		$n = floor((($w/$m)-2)/1.1);
 		$wf = $w+$m; // ancho final
 		if ($wf % 2 != 0) $wf++; // un poquito más
@@ -77,7 +82,7 @@ code {
 	height: <?php echo floor($n*0.6); ?>px; /* n */
 	margin: <?php echo floor($n/20); ?>px; /* n/20 */
 	padding-top: <?php echo floor($n/2.5); ?>px; /* n/3.333 */
-	font-size: <?php echo floor($n/50); ?>em; /* n/50 */
+	font-size: <?php echo floor($n*10/50)/10; ?>em; /* n/50 */
 }
 <?php
 	}
