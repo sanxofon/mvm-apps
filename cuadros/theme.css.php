@@ -39,7 +39,6 @@ code {
 	font-family: monospace;
 }
 
-
 .grid-square {
 	display: inline-block;
 	background-color: #fff;
