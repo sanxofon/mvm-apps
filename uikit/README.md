@@ -1,7 +1,7 @@
 # Plantilla vacía para crear una Web App PWA con UIKit
 **Versión UIKit 3.15** - *2022-08-12*
 
-[![General badge](https://img.shields.io/badge/VER_EN-GITHUB_PAGES-<COLOR>.svg)](https://sanxofon.github.io/mvm/apps/uikit)
+[![General badge](https://img.shields.io/badge/VER_EN-GITHUB_PAGES-<COLOR>.svg)](https://sanxofon.github.io/mvm-apps/uikit)
 
 ## Descripción general
 
@@ -19,7 +19,7 @@ Este template *Progressive Web App* (**PWA**)
 
 ## Demo
 
-Se puede ver esta plantilla [en acción](http://lengua.la/mvm/apps/uikit).
+Se puede ver esta plantilla [en acción](http://lengua.la/mvm-apps/uikit).
 
 ## Estilos y CSS
 
@@ -52,7 +52,7 @@ Este archivo contiene los metadatos técnicamente indispensables para una Progre
     if(@$_GET['launcher']) $app_version = $app_version."b"; // No modificar esta línea
     $app_description = "Este template muestra cómo hacer una PWA usando UIKit v3 (getuikit.com)"; // Descripción general de la app.
     $app_server = "";                   // Servidor donde la app está alojada (DNS ó IP). Se puede usar cadena vacía "" para cualquiera.
-    $app_path = "/mvm/apps/".$app_shortname."/";  // Ruta absoluta a la app desde la raíz del servidor (debe empezar y terminar en "/")
+    $app_path = "/mvm-apps/".$app_shortname."/";  // Ruta absoluta a la app desde la raíz del servidor (debe empezar y terminar en "/")
 
 
 ### appHeader.php

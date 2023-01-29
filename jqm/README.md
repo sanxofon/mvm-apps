@@ -1,7 +1,7 @@
 # Plantilla vacía para crear una PWA con JQuery Mobile
 **Versión v1.4.5** - *2022-08-12*
 
-[![General badge](https://img.shields.io/badge/VER_EN-GITHUB_PAGES-<COLOR>.svg)](https://sanxofon.github.io/mvm/apps/jqm/)
+[![General badge](https://img.shields.io/badge/VER_EN-GITHUB_PAGES-<COLOR>.svg)](https://sanxofon.github.io/mvm-apps/jqm/)
 
 ## Descripción general
 
@@ -46,7 +46,7 @@ Este archivo contiene los metadatos técnicamente indispensables para una Progre
     if(@$_GET['launcher']) $app_version = $app_version."b"; // No modificar esta línea
     $app_description = "Template de progressive web app basada en JQueryMobile v1.4.5"; // Descripción general de la app.
     $app_server = "";                   // Servidor donde la app está alojada (DNS ó IP). Se puede usar cadena vacía "" para cualquiera.
-    $app_path = "/mvm/apps/".$app_shortname."/";  // Ruta absoluta a la app desde la raíz del servidor (debe empezar y terminar en "/")
+    $app_path = "/mvm-apps/".$app_shortname."/";  // Ruta absoluta a la app desde la raíz del servidor (debe empezar y terminar en "/")
 
 
 ### appHeader.php

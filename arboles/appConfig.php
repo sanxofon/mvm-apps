@@ -10,4 +10,4 @@ $app_year = "2022";                            // Año de publicación de la app
 if(@$_GET['launcher']) $app_version = $app_version."b"; // No modificar esta línea, sirve para detectar si el usuario ha cargado la página como una app instalada o como una página web.
 $app_description = "Este script crea árboles de 1>n<100 vértices al azar y los despliega. No existe una fórmula conocida para calcular el número de variedades que un árbol puede tener con n vértices. Se conoce ese número sólo hasta n=36."; // Descripción general de la app.
 $app_server = "";                   // Servidor donde la app está alojada (DNS ó IP). Se puede usar cadena vacía "" para cualquiera.
-$app_path = "/museomates/mvm/apps/".$app_shortname."/";  // Ruta absoluta a la app desde la raíz del servidor (debe empezar y terminar en "/")
+$app_path = "/museomates/mvm-apps/".$app_shortname."/";  // Ruta absoluta a la app desde la raíz del servidor (debe empezar y terminar en "/")

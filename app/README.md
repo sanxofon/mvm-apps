@@ -1,7 +1,7 @@
 # Plantilla vacía para crear una Web App
 **Versión 0.6** - *2022-08-12*
 
-[![General badge](https://img.shields.io/badge/VER_EN-GITHUB_PAGES-<COLOR>.svg)](https://sanxofon.github.io/mvm/apps/app/&)
+[![General badge](https://img.shields.io/badge/VER_EN-GITHUB_PAGES-<COLOR>.svg)](https://sanxofon.github.io/mvm-apps/app/&)
 
 ## Descripción general
 
@@ -18,7 +18,7 @@ Este template *Progressive Web App* (**PWA**)
 ![Screen Shot Desktop](img/screenshot1.png)
 ## Demo
 
-Se puede ver esta plantilla [en acción](http://lengua.la/mvm/apps/app).
+Se puede ver esta plantilla [en acción](http://lengua.la/mvm-apps/app).
 
 ## Estilos y CSS
 
@@ -51,7 +51,7 @@ Este archivo contiene los metadatos técnicamente indispensables para una Progre
     if(@$_GET['launcher']) $app_version = $app_version."b"; // No modificar esta línea
     $app_description = "Compatibilidad con los nuevos dispositivos inteligentes"; // Descripción general de la app.
     $app_server = "";                   // Servidor donde la app está alojada (DNS ó IP). Se puede usar cadena vacía "" para cualquiera.
-    $app_path = "/mvm/apps/".$app_shortname."/";  // Ruta absoluta a la app desde la raíz del servidor (debe empezar y terminar en "/")
+    $app_path = "/mvm-apps/".$app_shortname."/";  // Ruta absoluta a la app desde la raíz del servidor (debe empezar y terminar en "/")
 
 ### appHeader.php
 
