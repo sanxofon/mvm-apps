@@ -10,4 +10,7 @@ $app_year = "2022";                            // Año de publicación de la app
 if(@$_GET['launcher']) $app_version = $app_version."b"; // No modificar esta línea
 $app_description = "Este template muestra cómo hacer una PWA usando UIKit v3 (getuikit.com)"; // Descripción general de la app.
 $app_server = "";                   // Servidor donde la app está alojada (DNS ó IP). Se puede usar cadena vacía "" para cualquiera.
-$app_path = "/museomates/mvm-apps/".$app_shortname."/";  // Ruta absoluta a la app desde la raíz del servidor (debe empezar y terminar en "/")
+require_once("../is_localhost.php");
+// Ruta absoluta a la app desde la raíz del servidor (debe empezar y terminar en "/")
+if(is_localhost())$app_path = "/museomates/mvm-apps/".$app_shortname."/";
+else$app_path = "/mvm-apps/".$app_shortname."/";  
