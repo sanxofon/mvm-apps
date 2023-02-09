@@ -217,8 +217,7 @@ function draw() {
             image(slice, -w/2, -h/2);
 
             loadPixels();
-            // let d = pixelDensity();
-            // console.log("D:",d);
+            // Creamos un array para la copia vacío de las dimensiones adecuadas
             let pixelnew = new Array(height*width*4);// for (let i=0; i<n; ++i) pixelnew[i] = 0;
             for (var y = 0; y < height; y++) { // recorre el canvas 480x480
             for (var x = 0; x < width; x++) {
@@ -226,19 +225,23 @@ function draw() {
                 var listindex = index*2;
                 index = index*4;
 
-                var nx = filtrado[listindex+1];
-                var ny = filtrado[listindex+0];
+                var nx = filtrado[listindex+1]; // Ojo que la X va en el segundo índice (1)
+                var ny = filtrado[listindex+0]; //  y la Y en el  primero (0) o si no la imagen aparece de lado
+                if (y>=240)nx=width-nx;
                 var newindex = (nx + ny * width)*4;
-                 
+                
+                // Creamos la copia
                 pixelnew[index+0] = pixels[newindex+0];
                 pixelnew[index+1] = pixels[newindex+1];
                 pixelnew[index+2] = pixels[newindex+2]; 
                 pixelnew[index+3] = pixels[newindex+3];      
             }
             }
+            // Pasamos de la copia al array pixeles reales
             for (var i = 0; i < height*width*4; i++) {
                 pixels[i] = pixelnew[i];
             }
+            pixels=pixelnew;
             updatePixels();
             
         } else if (algoritmo=='espejo') {
