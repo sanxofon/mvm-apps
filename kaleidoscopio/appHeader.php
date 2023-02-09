@@ -15,6 +15,7 @@
   <script src="https://unpkg.com/h264-mp4-encoder/embuild/dist/h264-mp4-encoder.web.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/p5@1.5.0/lib/p5.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mobile-detect@1.4.4/mobile-detect.min.js"></script>
+  <script src="filtro.lista.js"></script>
   <!-- <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/> -->
   <!-- <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/> -->
   <!-- Search Engine -->

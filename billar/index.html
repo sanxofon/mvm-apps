@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<title>Billar</title>
+<meta charset="utf-8"/>
+<code mode="text/html">
+
+<html>
+<head>
+    
+    <!-- LOADING LIBRARIES -->
+    <!-- Load the Paper.js library -->
+    <script type="text/javascript" src="./Modules/paper-full.js"></script>
+    <!-- Load the Math.js library -->
+    <script type="text/javascript" src="./Modules/math.js"></script>
+    <script type="text/javascript" src="./Modules/FileSaver.js"></script>
+    <!--script type="text/javascript" src="./Modules/Chart.bundle.js"></script-->
+    <!-- Define inlined PaperScript associate it with b_table -->
+    <script type="text/javascript" src="./Modules/myTable.js" canvas = "b_table"></script>
+    
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+
+<body>
+    <!-- TABLE -->
+    <center>
+        
+        <table>
+            <tr>
+                <td>
+                    <div id="window">
+                        <!-- CANVAS FOR DRAWING -->
+                        <canvas id="b_table" resize="true"></canvas>
+                    </div>
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>Iteraciones:</td>
+                            <td><input type="number" step="1" min="1" max="1024" name="num_iter" value="12" id="num_iter" style='width:50px;' oninput="run()"></td>
+                        </tr>
+                        <tr>
+                            <td>Ángulo</td>
+                            <td><!--input type="range" min="0" max="360" step="1" value="36" class="slider" id="theta" oninput="document.getElementById('thetatxt').value=this.value;slideToVec(this.value);run()"--><input style="width:80px;" type="number" step="1" value="36" min="0" max="360" id="theta" oninput="slideToVec(this.value);run()"><select title="Resolución del ángulo" style="width:60px;" name="angleresolution" id="angleresolution" onchange="document.getElementById('theta').step=parseFloat(this.value)">
+                                <option value="10.0">10</option>
+                                <option value="1.0" selected>1</option>
+                                <option value="0.1">0.1</option>
+                                <option value="0.01">0.01</option>
+                            </select></td>
+                            <!--td class="slidecontainer" colspan=2>Blue<input type="range" min="0" max="360" value="180" class="slider" id="theta" oninput="slideToVec_blue(this.value)"></td-->
+                        </tr>
+                        <tr style="display:none;">
+                            <td>Gamma:</td>
+                            <td><input type="text" name="gamma" value="0" id="gamma"></td>
+                        </tr>
+                        <tr>
+                            <td>Posición inicial:</td>
+                            <td><input type="text" name="position" value="0, 0" id="position" oninput="run()"></td>
+                            <!--td>Blue <input type="text" name="position_blue" value="-30, -30" id="position_blue"></td-->
+                        </tr>
+                        <tr style="display:none;">
+                            <td>Initial Omega:</td>
+                            <td><input type="text" name="omega" value="1" id="omega"></td>
+                            <!--td>Blue <input type="text" name="omega_blue" value="1" id="omega_blue"></td-->
+                        </tr>
+                        <tr style="display:none;">
+                            <td>Initial Heading:</td>
+                            <td><input type="text" name="heading"  value="(0, 1)" id="heading"></td>
+                            <!--td>Blue <input type="text" name="heading_blue"  value="(0, 1)" id="heading_blue"></td-->
+                        </tr>
+                        <!--tr> 
+                            <td> Width:</td>
+                            <td><input type="text" name="table_width"  value="600" id="table_width"></td>
+
+                            <td>Height:</td>
+                            <td><input type="text" name="table_height" value="300" id="table_height"></td>
+                        </tr-->
+                        <tr>
+                            <td colspan="2">
+                                <!--input type="radio" id="tron" name="table_shape" value="tron">
+                                <label for="tron">tron</label-->
+                                <input type="radio" id="rectangle" name="table_shape" value="rectangle" oninput="run()">
+                                <label for="rectangle">Rectángulo</label>
+                                <input type="radio" id="circle" name="table_shape" value="circle" oninput="run()">
+                                <label for="circle">Círculo</label>
+                                <input type="radio" id="polygon" name="table_shape" value="polygon" checked oninput="run()"> 
+                                <label for="polygon">Polígono</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button onclick="run()" id="run"> OK </button>
+                                <div class="dropdown">
+                                    <button onclick="myFunction()" class="dropbtn">Paredes</button>
+                                    <div id="myDropdown" class="dropdown-content">
+                                        <a href="#" id="addPoly" onclick="addPoly()">Agregar Varias</a>
+                                        <a href="#" id="addPoint" onclick="addWall()">Agregar Pared</a>
+                                        <a href="#" id="clear" onclick="clearAll()">Vaciar Todo</a>
+                                    </div>
+                                </div> 
+                                <button onclick="exportSVG()" id="export_svg">SVG</button>
+                                <button onclick="exportStates()" id="export_states">CSV</button>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </center>
+    
+
+    <!--CHART AREA -->
+    <!--div id='chart'>
+        <canvas id="chart_canvas" resize="true"></canvas>
+    </div-->
+</body>
+
+</html>
+

@@ -28,16 +28,17 @@ let filtro = 0; // ïndice del filtro actual
 let filtros = []; // Filtros disponibles (se llena en setup)
 let ti = true; // Timer de 3 segundos antes de la foto
 
+
 // Record as MP4
 let encoder;
-let numFrames = 30; // num of frames to record (10-100 definido en HTML)
+let nFrames = 100; // num of frames to record (10-100 definido en HTML)
 let recording = false;
-let recordedFrames = 0;
+let rFrames = 0; // recorde frames so far
 
-function preload() {
+function preload(d) {
     HME.createH264MP4Encoder().then(enc => {
         encoder = enc
-        encoder.outputFilename = 'test'
+        encoder.outputFilename = "MVM_Kaleidoscopio_"+d
         encoder.width = cWidth
         encoder.height = cHeight
         encoder.frameRate = fr
@@ -51,7 +52,7 @@ function preload() {
 isSC = [
     {
         video: {
-            optional: [{ maxFrameRate: 5 }]
+            optional: [{ maxFrameRate: 10 }]
         },
         audio: false
     },
@@ -73,12 +74,7 @@ else{algoritmo = 'kaleidoscopio';}
 
 // FUNCIONES
 function setup() {
-    // MP4 record
-    if (getItem('nf')!=null)numFrames=parseInt(getItem('nf'));
-    if(numFrames<10)numFrames=10;
-    else if(numFrames>100)numFrames=100;
-    document.getElementById('nf').value = numFrames;
-    
+    // Foto timer
     if (getItem('ti')===true)ti=true;
     else ti=false;
     document.getElementById('ti').checked=ti;
@@ -98,6 +94,8 @@ function setup() {
         document.getElementById('bSwitch').style.display='inline';
     }
 
+    pixelDensity(1);
+
     if (getItem('fr')==null) changeFrameRate(5); // // Estaba seteada la velocidad del cuadro (frame rate)? Si no, está la default=5
     else changeFrameRate(getItem('fr'));
 
@@ -109,30 +107,32 @@ function setup() {
     vHeight = Math.floor(vWidth*0.75); // Calcula Video Height (4:3)
     document.getElementById('zo').value = vWidth; // Cambia el valor del elemento en el dom
 
+    let tama = 480; // Tamaño de los lados del canvas final
+
     if (algoritmo=='test') {
-        p = 1; // Proporción: .86602540378 aprox
-        w = 522; // Ancho de la máscara
+        p = 1; // cuadrado
+        w = tama; // Ancho de la máscara
         h = Math.ceil(p * w); // Alto de la máscara
-        cWidth = 522; // Canvas Width (zoom actual)
-        cHeight = 522; // Canvas Height
+        cWidth = tama; // Canvas Width (zoom actual)
+        cHeight = tama; // Canvas Height
         // Posición origen, pone el primer hexágono bien al medio
         originx = cWidth/2;
         originy = cHeight/2;
     } else if (algoritmo=='espejo') {
         p = 2; // Proporción: .86602540378 aprox
-        w = 261; // Ancho de la máscara
+        w = floor(tama/2); // Ancho de la máscara
         h = Math.ceil(p * w); // Alto de la máscara
-        cWidth = 522; // Canvas Width (zoom actual)
-        cHeight = 522; // Canvas Height
+        cWidth = tama; // Canvas Width (zoom actual)
+        cHeight = tama; // Canvas Height
         // Posición origen, pone el primer hexágono bien al medio
         originx = cWidth/2;
         originy = cHeight/2;
     } else if (algoritmo=='agua') {
         p = 0.5; // Proporción: .86602540378 aprox
-        w = 522; // Ancho de la máscara
+        w = tama; // Ancho de la máscara
         h = Math.ceil(p * w); // Alto de la máscara
-        cWidth = 522; // Canvas Width (zoom actual)
-        cHeight = 522; // Canvas Height
+        cWidth = tama; // Canvas Width (zoom actual)
+        cHeight = tama; // Canvas Height
         // Posición origen, pone el primer hexágono bien al medio
         originx = cWidth/2;
         originy = cHeight/2;
@@ -140,8 +140,8 @@ function setup() {
         p = Math.sqrt(3)/2; // Proporción: .86602540378 aprox
         w = 200; // Ancho de la máscara
         h = Math.ceil(p * w); // Alto de la máscara
-        cWidth = 522; //h*3; // Canvas Width (zoom actual)
-        cHeight = 522; //h*3; // Canvas Height
+        cWidth = tama; //h*3; // Canvas Width (zoom actual)
+        cHeight = tama; //h*3; // Canvas Height
         // Posición origen, pone el primer hexágono bien al medio
         originx = cWidth/2;
         originy = cHeight*2/3;
@@ -169,7 +169,6 @@ function setup() {
     storeItem('vw', vWidth);
     storeItem('sc', sc);
     storeItem('fr', fr);
-    storeItem('nf', numFrames);
     storeItem('ti', ti);
     
     // Establece objetos para un acceso dom rápido 
@@ -180,7 +179,7 @@ function setup() {
     // mascara.noStroke();
     mascara.beginShape();
     if (algoritmo=='test') {
-        zoom(720);
+        zoom(640);
         mascara.rect(0, 0, w, h); // agregando un poco más para ocultar los bordes
     } else if (algoritmo=='espejo') {
         zoom(720);
@@ -196,12 +195,14 @@ function draw() {
     if (capture.loadedmetadata == true) {
         // fc.innerHTML=frameCount;
         background(128);
+
+
         var slice = createImage(w, h);
         slice = capture.get((vWidth-w)/2,vHeight/2-h/2, w, h);
         slice.mask(mascara);
         
         if (algoritmo=='test') {
-            translate(originx, originy);
+            /* translate(originx, originy);
             // applyMatrix(-1, 0, 0, 1, w/2, 0);
             
             applyMatrix(-Math.tan(frameCount/20), 0, 0, 1, 0, 0);
@@ -209,7 +210,37 @@ function draw() {
             image(slice, -w/2, -h/2);
             // applyMatrix(1, 0, 0, 1, w, 0);
             // image(slice, -w/2, -h/2);
-            resetMatrix();
+            resetMatrix(); */
+
+            // APLICAR FILTRO DESDE MATRIZ DE AUBIN
+            translate(originx, originy);
+            image(slice, -w/2, -h/2);
+
+            loadPixels();
+            // let d = pixelDensity();
+            // console.log("D:",d);
+            let pixelnew = new Array(height*width*4);// for (let i=0; i<n; ++i) pixelnew[i] = 0;
+            for (var y = 0; y < height; y++) { // recorre el canvas 480x480
+            for (var x = 0; x < width; x++) {
+                var index = (x + y * width);
+                var listindex = index*2;
+                index = index*4;
+
+                var nx = filtrado[listindex+1];
+                var ny = filtrado[listindex+0];
+                var newindex = (nx + ny * width)*4;
+                 
+                pixelnew[index+0] = pixels[newindex+0];
+                pixelnew[index+1] = pixels[newindex+1];
+                pixelnew[index+2] = pixels[newindex+2]; 
+                pixelnew[index+3] = pixels[newindex+3];      
+            }
+            }
+            for (var i = 0; i < height*width*4; i++) {
+                pixels[i] = pixelnew[i];
+            }
+            updatePixels();
+            
         } else if (algoritmo=='espejo') {
             translate(originx, originy);
             applyMatrix(-1, 0, 0, 1, w/2, 0);
@@ -249,7 +280,8 @@ function draw() {
         // Aplica filtro a la captura del video
         if (filtro>0) filter(filtros[filtro]);
         // console.log(filtros[filtro]);
-        
+
+        // FIN DE PROCESOS
         if(step<maxstep) {
             sp++;
             step = Math.floor(sp/stepspeed);
@@ -260,13 +292,13 @@ function draw() {
         if (recording) {
             // console.log('recording');
             encoder.addFrameRgba(drawingContext.getImageData(0, 0, cWidth, cHeight).data);
-            recordedFrames++;
+            rFrames++;
         }
         // finalize encoding and export as mp4
-        if (recordedFrames >= numFrames) {
-            numFrames = parseInt(getItem("nf"));
+        if (rFrames >= nFrames) {
+            nFrames = 100;
             recording = false;
-            recordedFrames = 0;
+            rFrames = 0;
             document.getElementById('bVideo').value="● GRABAR";
             document.getElementById('bVideo').classList.remove("w3-red");
             // console.log('recording stopped');
@@ -279,7 +311,7 @@ function draw() {
             anchor.click();
             encoder.delete();
 
-            preload(); // reinitialize encoder
+            preload((new Date()).getTime() / 1000); // reinitialize encoder
         }
     }
 }
@@ -381,7 +413,7 @@ document.getElementById('bSwitch').addEventListener("click", function() {
     switchCamera();
 });
 document.getElementById('zo').addEventListener("change", function() {
-    console.log(vWidth,this.value);
+    // console.log(vWidth,this.value);
     zoom(this.value);
 });
 document.getElementById('fr').addEventListener("change", function() {
@@ -397,12 +429,8 @@ document.getElementById('bVideo').addEventListener("click", function() {
         recording = true;
     }else{
         this.value = "DETENIENDO";
-        numFrames = recordedFrames+1;
+        nFrames = rFrames+1;
     }
-});
-document.getElementById('nf').addEventListener("change", function() {
-    numFrames = parseInt(this.value);
-    storeItem("nf",numFrames);
 });
 document.getElementById('ti').addEventListener("change", function() {
     if(this.checked)ti=true;
