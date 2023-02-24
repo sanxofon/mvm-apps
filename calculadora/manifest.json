@@ -1,0 +1,13 @@
+{
+    "display":      "standalone", /* Could be "fullscreen", "standalone", "minimal-ui", or "browser" */
+    "orientation":  "landscape", /* Could be "landscape" or "portrait" */
+    "start_url": "/museomates/mvm-apps/calculadora/",
+    "theme_color": "#111111",
+    "background_color": "#111111",
+    "icons": [
+    {
+      "src": "android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  }

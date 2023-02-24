@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no"/>
+    <title>Simon dice</title>
+    <script src="js/d3.min.js"></script>
+    <script src="js/sweetalert2.min.js"></script>
+    <script src="js/howler.core.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        .boton {
+            cursor: pointer;
+        }
+
+        body {
+            padding-bottom: 70px;
+            padding-top: 70px;
+        }
+    </style>
+</head>
+
+<body>
+<main class="container-fluid">
+    <div class="row text-center">
+        <div class="col-12 table-responsive">
+            <button id="comenzar" class="mb-2 btn btn-success">Comenzar juego</button>
+            <div id="contenedorJuego"></div>
+        </div>
+        <div class="col-12 table-responsive" style="text-align:center;"><b>Ruido:</b>Porcentaje de error<br><input value="10" type="range" max="99" min="0" id="noise" style="width:200px;" oninput="document.getElementById('noiseTxt').innerHTML=this.value"><br><span id="noiseTxt">10</span>%</div>
+    </div>
+</main>
+<script src="js/game.js"></script>
+</body>
+</html>

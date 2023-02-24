@@ -49,7 +49,7 @@ include("appHeader.php");
 				</select></label>
 			</div>
 				
-			<!-- <br><br><button onclick="localStorage.clear();window.location.reload(true);">RELOAD</button> -->
+			<br><br><button onclick="localStorage.clear();window.location.reload(true);">RELOAD</button>
 				
 			<!-- <input id="steprange" type="range" min="0" max="40" step="1" value="0"> -->
 

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="manifest" href="manifest.json">
+<title>Calculadora sonora</title>
+<script src='decimal.js'></script>
+<script src='fparser.js'></script>
+<script src="Tone.js"></script>
+<style>
+body {
+  background-color: #111;
+  padding: 0;
+  margin: 0;
+}
+* {
+  font-size: 16pt;
+  font-family: 'Courier New', Courier, monospace;
+}
+#input1,#input2 {
+    background-color: transparent;
+    color: #fff;
+    width: 400px;
+    border:none;
+    font-size: 2em;
+    text-align: center;
+    border: 1px solid #222;
+    border-radius: 3px;
+}
+hr {
+    border: none;
+    border-bottom: 2px solid #fff;
+}
+#input1:focus,#input2:focus {
+    border: 1px solid #999!important;
+}
+.seleccionado {
+    border: 1px solid #999!important;
+}
+#output {
+    background-color: #222;
+    height: 320px;
+    width: 360px;
+    padding:4px;
+    overflow: auto;
+    border:none;
+    font-size: 2em;
+    color:#fff;
+}
+.centro table {
+    margin: 0 auto;
+}
+.titulo {
+    background-color: #000;
+    border-bottom: 1px solid #666;
+    text-align: center;
+    padding: 6px;
+    font-size: 32pt;
+    color:#999;
+}
+#datos {
+    color: #888;
+    font-size: 16pt;
+    height:20px;
+    padding:4px;
+    background-color: #000;
+    font-weight: bold;
+}
+#datos::before {
+    content: 'N° dígitos: ';
+    font-weight:normal;
+    font-size: 12pt;
+}
+#operacion {
+    width: 400px;
+    margin: 0 auto;
+}
+
+
+/* Teclado */
+td input {
+    width: 50px;
+    height: 50px;
+    background-color: #ccc;
+}
+td input:hover {
+    background-color: #bbb;
+}
+td input:active {
+    background-color: #FF8;
+}
+.botondoble {
+    width: 105px;
+}
+.topall {
+    margin: 0 auto;
+}
+.topall * {
+    vertical-align: top;
+}
+
+/*Config & Start Modals*/
+#config-container {
+    position: fixed;
+    overflow: hidden;
+    top:0;
+    left:0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.75);
+    display: none;
+}
+#config-close {
+    background-color: #444;
+    border:2px solid #ddd;
+    width:30px;
+    height:30px;
+    font-size: 32px!important;
+    line-height: 100%;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 3px;
+    position: absolute;
+    right: 10px;
+    top:10px;
+}
+#config-close:hover {
+    border:2px solid #999;
+}
+
+#config-container{
+    position: fixed;
+    overflow: hidden;
+    top:0;
+    left:0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.75);
+}
+#config {
+    position: absolute;
+    left: 50vw;
+    top: 5vh;
+    width: 400px;
+    margin-left:-200px;
+    background-color: #444;
+    border: 1px solid #999;
+    color: #fff;
+    padding-top: 8px;
+    padding-bottom: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+#config * {
+    margin:0;
+    font-size: 10pt;
+}
+#config h1 {
+    font-size: 16pt!important;
+}
+#config h3,#config .grande {
+    font-size: 12pt!important;
+}
+#config input {
+    width: 60px;
+}
+#config .margen {
+    margin-left: 8px;
+    margin-right: 8px;
+}
+#start-container {
+    position: fixed;
+    overflow: hidden;
+    top:0;
+    left:0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(0,0,0);
+}
+#start {
+    position: fixed;
+    left: 50vw;
+    top: 50vh;
+    width: 80vw;
+    height: 80vw;
+    margin-top:-40vw;
+    margin-left:-40vw;
+    background-color: #000;
+    border: 1px solid #999;
+    color: #fff;
+    text-align: center;
+}
+
+.igual {
+    vertical-align: top;
+    color: #fff;
+    font-size:24px;
+    padding-top:56px;
+}
+
+/* To Do list*/
+#todo * {
+    font-size: 10pt;
+}
+#todo {
+    /* background-color: #444; */
+    padding: 16px;
+    color:#ccc;
+}
+</style>
+</head>
+<body>
+<div id="start-container" onclick="doFullScreen()">
+    <img id="start" src="android-chrome-192x192.png">
+</div>
+<div id="config-container">
+<div id="config">
+    <div id="config-close" onclick="closeConfig()">&#10006;</div>
+    <h1>&#9881; Configuración</h1>
+    <div class="margen">
+        <div><label for="volumen"><b class="grande">Volumen</b> <input style="width:260px" id="volumen" type="range" value="-12" min="-50" max="0" step="1"></label></div>
+        <div><label for="precision"><b class="grande">Precisión máximo dígitos</b> <input id="precision" type="number" value="100" min="10" max="1000" step="1"></label></div>
+        <div><label for="hearKeys"><b class="grande">Notas en el teclado</b> <input id="hearKeys" type="checkbox"></label></div>
+        <div><label for="duraNota"><b class="grande">Duración c/Nota</b> <select id="duraNota"><option value="2n">2n</option><option value="4n">4n</option><option value="8n">8n</option></select></label></div>
+        <div><label for="duraNotaLoop"><b class="grande">Duración c/Loop</b> <select id="duraNotaLoop"><option value="2n">2n</option><option value="4n">4n</option><option value="8n">8n</option></select></label></div>
+        <div><label for="tempo"></label><b class="grande">Tempo en bmp</b> <input id="tempo" type="number" value="" min="60" max="1200" step="1"></label>
+        <fieldset id="rampField" disabled>
+            <legend><label for="rampON"><h3>Acelerar <input id="rampON" type="checkbox"></h3></label></legend>
+            <div><label for="rampTo"><b>Tempo final en bmp</b> <input id="rampTo" type="number" value="" min="60" max="1600" step="1"></label></div>
+            <div><label for="rampTime"><b>Duración en segundos</b> <input id="rampTime" type="number" value="" min="1" max="50" step="1"></label></div>
+            <div><label for="rampInit"><b>Iniciar en tempo</b> <input id="rampInit" type="number" value="" min="1" max="50" step="1"></label></div>
+        </fieldset></div>
+    </div>
+</div>
+</div>
+<div class="centro">
+    <table><tr><td>
+        <div>
+            <input readonly size="15" placeholder="0" type="text" id="input1" pattern="[0-9.+\-*/^() PIE]+" value="" inputmode='none'>
+            <hr>
+            <input readonly size="15" placeholder="1" type="text" id="input2" pattern="[0-9.+\-*/^() PIE]+" value="" inputmode='none'>
+        </div>
+        <table class="topall"><tbody><tr>
+            <td>
+                <table id="calcu">
+                    <tbody>
+                    <tr>
+                        <!-- create button and assign value to each button -->
+                        <!-- dis("1") will call function dis to display value -->
+                        <td><input type="button" value="7" onclick="dis('7')"> </td>
+                        <td><input type="button" value="8" onclick="dis('8')"> </td>
+                        <td><input type="button" value="9" onclick="dis('9')"> </td>
+                    </tr>
+                    <tr>
+                        <td><input type="button" value="4" onclick="dis('4')"> </td>
+                        <td><input type="button" value="5" onclick="dis('5')"> </td>
+                        <td><input type="button" value="6" onclick="dis('6')"> </td>
+                    </tr>
+                    <tr>
+                        <td><input type="button" value="1" onclick="dis('1')"> </td>
+                        <td><input type="button" value="2" onclick="dis('2')"> </td>
+                        <td><input type="button" value="3" onclick="dis('3')"> </td>
+                    </tr>
+                    <tr>
+                        <td><input style="background-color:cyan;" type="button" value="&#9881;" onclick="showConfig()"> </td>
+                        <td><input type="button" value="0" onclick="dis('0')"> </td>
+                        <td><input type="button" value="." onclick="dis('.')"> </td>
+                    </tr>
+                </tbody></table>
+            </td>
+            <td>
+                <table id="calcu">
+                    <tbody><tr>
+                        <td><input style="background-color:gold;" type="button" value="&#x232B;" onclick="backspace()"></td>
+                        <td><input style="background-color:coral;" type="button" value="C" onclick="clearSome()"></td>
+                        <td colspan="2"><input style="background-color:firebrick;" type="button" value="CA" onclick="clearAll();" class="botondoble"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="button" value="+" onclick="dis('+')"> </td>
+                        <td><input type="button" value="-" onclick="dis('-')"> </td>
+                        <td><input type="button" value="&#960;" onclick="dis('PI')" style="font-style: italic;font-family: Arial, sans-serif;"> </td>
+                        <td><input type="button" value="e" onclick="dis('E')" style="font-style: italic;font-family: Arial, sans-serif;"> </td>
+                    </tr>
+                    <tr>
+                        <td><input type="button" value="*" onclick="dis('*')"> </td>
+                        <td><input type="button" value="/" onclick="dis('/')"> </td>
+                        <td><input type="button" value="(" onclick="dis('(')"> </td>
+                        <td><input type="button" value=")" onclick="dis(')')"> </td>
+                    </tr>
+                    <tr>
+                        <td><input type="button" value="^" onclick="dis('^')"> </td>
+                        <td><input type="button" value="&radic;" onclick="dis('^(1/2)')"> </td>
+                        <td colspan="2"><input style="background-color: chartreuse;" type="button" value="=" onclick="parse()" class="botondoble"> </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr></tbody></table>
+    </td>
+    <td class="igual">=</td>
+    <td>
+        <textarea id="output" readonly></textarea>
+        <div id="datos"></div>
+    </td></tr></table>
+</div>
+<div id="todo">
+    <h3>To Do List:</h3>
+    <ol>
+        <li>Memorizar operaciones interesantes y poderlas abrir y compartir</li>
+        <li>Escribir con el teclado en una PC</li>
+        <li>Usar números de extensión ilimitada en los <i>inputs</i></li>
+    </ol>
+</div>
+<script>
+const isMobile = localStorage.mobile || window.navigator.maxTouchPoints > 1;
+if(isMobile)document.getElementById('todo').style.display='None';
+else document.getElementById('start-container').style.display='None';
+function doFullScreen() {
+    document.getElementById('start-container').style.display='None';
+    if (!document.fullscreenElement && isMobile) {
+        document.documentElement.requestFullscreen();
+        screen.orientation.lock('landscape');
+    }
+}
+
+// Constantes y variables definidas
+var precision = 200;
+Decimal.set({ precision: precision });
+var volumen = -5;
+let hearKeys = false;
+let bmp_tempo = 240; // BMP de inicio
+let bmp_rampON = false; // Aceleración de BMP
+let bmp_rampTo = 640; // BMP máximo
+let bmp_rampTime = 20; // Segundos del acelerando
+let bmp_rampInit = 10; // tempo de inicio del acelerando
+let duraNota="4n"; // 2n, 4n, 8n
+let duraNotaLoop="4n"; // Resolution
+let octava = '4';
+const notas = {
+    '1':'C',
+    '2':'D',
+    '3':'Eb',
+    '4':'E',
+    '5':'F',
+    '6':'G',
+    '7':'A',
+    '8':'Bb',
+    '9':'B'
+};
+let euler = new Decimal(1);
+euler = euler.naturalExponential();
+let pi = Decimal.acos(-1);
+const constantes = {
+    'PI': pi,
+    'E': euler
+};
+// SET CONFIGS
+document.getElementById('volumen').value=volumen;
+document.getElementById('precision').value=precision;
+document.getElementById('duraNota').value=duraNota;
+document.getElementById('duraNotaLoop').value=duraNotaLoop;
+document.getElementById('tempo').value=bmp_tempo;
+document.getElementById('rampTo').value=bmp_rampTo;
+document.getElementById('rampTime').value=bmp_rampTime;
+document.getElementById('rampInit').value=bmp_rampInit;
+document.getElementById('rampON').checked=bmp_rampON;
+document.getElementById('hearKeys').checked=hearKeys;
+document.getElementById('rampField').disabled = !bmp_rampON;
+// Variables generales
+var arriba = '';
+var abajo = '';
+var resultado = '';
+var loop;
+const salida = document.getElementById('output');
+const datos = document.getElementById('datos');
+const input1 = document.getElementById('input1');
+const input2 = document.getElementById('input2');
+
+//create a synth and connect it to the main output (your speakers)
+const synth = new Tone.FMSynth().toDestination();
+synth.volume.value = volumen;
+
+function changeEntrada() {
+    if(entrada=='2') {
+        input1.classList.remove("seleccionado");
+        input2.classList.add("seleccionado");
+    } else {
+        input1.classList.add("seleccionado");
+        input2.classList.remove("seleccionado");
+    }
+}
+
+/*TECLADO*/
+function filterField(e) {
+    let t = e.target;
+    let badValues = /[^0-9\-+*/(). ^PIE]/gi;
+    t.value = t.value.replace(badValues, '');
+}
+var entrada = '1';
+changeEntrada();
+input1.addEventListener('input', filterField);
+input1.addEventListener('blur', function(){if(this.value=="")this.value="";});
+input1.addEventListener('click', function(){
+    entrada='1';
+    changeEntrada();
+});
+input2.addEventListener('input', filterField);
+input2.addEventListener('blur', function(){if(this.value=="")this.value="";});
+input2.addEventListener('click', function(){
+    entrada='2';
+    changeEntrada();
+});
+salida.addEventListener('click', function(){
+    if(loop!=null){
+        // console.log(loop.state);
+        if(loop.state=='started')loop.stop();
+        else loop.start();
+    }
+});
+document.getElementById('volumen').addEventListener('change',function(){ volumen = this.value;synth.volume.value = volumen; });
+//tempo,rampTo,rampTime,rampInit
+document.getElementById('precision').addEventListener('change', function(){ precision = parseInt(this.value); });
+document.getElementById('duraNota').addEventListener('change', function(){ duraNota = this.value; });
+document.getElementById('duraNotaLoop').addEventListener('change', function(){ duraNotaLoop = this.value; });
+document.getElementById('tempo').addEventListener('change', function(){ bmp_tempo = parseInt(this.value); });
+document.getElementById('rampTo').addEventListener('change', function(){ bmp_rampTo = parseInt(this.value); });
+document.getElementById('rampTime').addEventListener('change', function(){ bmp_rampTime = parseInt(this.value); });
+document.getElementById('rampInit').addEventListener('change', function(){ bmp_rampInit = parseInt(this.value); });
+document.getElementById('hearKeys').addEventListener('change', function(){ hearKeys = this.checked; });
+document.getElementById('rampON').addEventListener('change', function(){
+    bmp_rampON = this.checked;
+    document.getElementById('rampField').disabled = !bmp_rampON;
+});
+
+
+function showConfig() {
+    document.getElementById('config-container').style.display='block';
+}
+function closeConfig() {
+    document.getElementById('config-container').style.display='none';
+}
+function playNota(nota='') {
+    if(nota>0){
+        nota=notas[nota]+octava;
+        // console.log("Play nota:",nota);
+        synth.triggerAttackRelease(nota, "8n");
+    }
+}
+function dis(l) {
+    doFullScreen();
+    if(hearKeys)playNota(l);
+    // console.log("Entrada:",entrada);
+    let el = document.getElementById('input'+entrada);
+    if(el.value=='0' || el.value=='')el.value=l;
+    else el.value+=l;
+    const re = /^0([0-9PIE])/;
+    el.value = el.value.replace(re, "$1");
+}
+function backspace() {
+    let el = document.getElementById('input'+entrada);
+    el.value=el.value.substr(0, el.value.length - 1);
+    if(el.value=='' && entrada=='1')el.value='';
+}
+function clearSome() {
+    stopLoop();
+    salida.value='';
+}
+function clearAll() {
+    clearSome()
+    entrada = "1";
+    changeEntrada();
+    input1.value="";
+    input2.value="";
+}
+function stopLoop() {
+    if(loop!=null){
+        loop.stop();
+    }
+}
+const parse = () => {
+    clearSome();
+    if(input1.value=='')input1.value="0";
+    if(input2.value=='')input2.value="1";
+    const in1 = input1.value.toUpperCase();
+    const in2 = input2.value.toUpperCase();
+    const fObj1 = new Formula(in1);
+    // console.log(fObj1);
+    const fObj2 = new Formula(in2);
+    arriba = fObj1.getExpressionString().replace(/\s/g, '');
+    abajo = fObj2.getExpressionString().replace(/\s/g, '');
+    if(arriba=='0')input1.value = '';
+    else input1.value = arriba;
+    if(abajo=='1')input2.value = '';
+    else input2.value = abajo;
+
+    Decimal.precision = precision; // Ser decimal.js precision
+    let arr = fObj1.getExpression();
+    let aba = fObj2.getExpression();
+
+    function potencia(a,b) {
+        const x = new Decimal(String(a));
+        const y = new Decimal(String(b));
+        const r = x.pow(y);
+        return r.toFixed();
+    }
+    function dividir(a,b) {
+        const x = new Decimal(String(a));
+        const y = new Decimal(String(b));
+        const r = x.div(y);
+        return r.toFixed();
+    }
+    function multiplicar(a,b) {
+        const x = new Decimal(String(a));
+        const y = new Decimal(String(b));
+        const r = x.times(y);
+        return r.toFixed();
+    }
+    function sumar(a,b) {
+        const x = new Decimal(String(a));
+        const y = new Decimal(String(b));
+        const r = x.plus(y);
+        return r.toFixed();
+    }
+    function restar(a,b) {
+        const x = new Decimal(String(a));
+        const y = new Decimal(String(b));
+        const r = x.plus(y.negated());
+        return r.toFixed();
+    }
+    function recorrerObjeto(o) {
+        if(o == null) {
+            return '0';
+        }else if(o.value || o.value===0) {
+            // console.log("value:",o.value);
+            return o.value;
+        }else if(o.varName) {
+            // console.log("varName:",o.varName);
+            if(constantes.hasOwnProperty(o.varName)){
+                return constantes[o.varName];
+            } else {
+                console.log("ERROR (Constante no definida):",o.varName);
+            }
+        }else if(o.operator) {
+            var l = recorrerObjeto(o.left);
+            var r = recorrerObjeto(o.right);
+            // console.log("operacion: "+l+" "+o.operator+" "+r);
+            switch(o.operator) {
+                case "+":
+                    return sumar(l,r);
+                    break;
+                case "-":
+                    return restar(l,r);
+                    break;
+                case "*":
+                    return multiplicar(l,r);
+                    break;
+                case "/":
+                    return dividir(l,r);
+                    break;
+            }
+        }else if(o.base) {
+            var b = recorrerObjeto(o.base);
+            var e = recorrerObjeto(o.exponent);
+            // console.log("operacion: "+b+"^"+e);
+            return potencia(b,e);
+        }else if(o.innerExpression) {
+            var r = recorrerObjeto(o.innerExpression);
+            // console.log("innerExpression:",r);//,arr.innerExpression);
+            return r;
+        }else{
+            console.log("ERROR KEYS:",Object.keys(o));
+            console.log("ERROR VALUES:",Object.values(o));
+        }
+    }
+
+    // División final
+    var resultado1 = String(recorrerObjeto(arr));
+    var resultado2 = String(recorrerObjeto(aba));
+    // console.log("LLEGO:",resultado1,"/",resultado2);
+    resultado = dividir(resultado1,resultado2);
+
+    // salida.value = arriba+" / "+abajo+" = "+resultado;
+    // salida.value = resultado;
+    salida.value = '';
+    datos.innerHTML=resultado.length;
+    var resarr = resultado.split('');
+
+    //  play a note every quarter-note
+    var iTone = 0;
+    loop = new Tone.Loop(time => {
+        resarr[iTone]=String(resarr[iTone]);
+        let nota='';
+        if(resarr[iTone]>0) {
+            nota=notas[resarr[iTone]]+octava;
+            synth.triggerAttackRelease(nota, duraNota, time);
+        }
+        salida.value += resarr[iTone];
+        salida.scrollTop = salida.scrollHeight; // Scroll to bottom
+        datos.innerHTML=salida.value.length;
+        // console.log(iTone,resarr[iTone],nota);
+        iTone++;
+        if(iTone>=resarr.length) {
+            loop.stop();	
+        } else if(bmp_rampON && iTone==bmp_rampInit) {
+            // ramp up to 800 bpm over 10 seconds
+            Tone.Transport.bpm.rampTo(bmp_rampTo, bmp_rampTime);
+        }
+    }, duraNotaLoop).start(0);
+    Tone.Transport.bpm.value=bmp_tempo;
+    // the loops start when the Transport is started
+    Tone.Transport.start();
+
+    var now = Tone.now();
+};
+
+</script>
+</body>
+</html>

@@ -18,13 +18,30 @@
     
     <link rel="stylesheet" type="text/css" href="style.css">
 
+
+    <script src="jquery.min.js"></script>
+    <script src="jquery.knob.min.js"></script>
+    <script>
+        $(function($) {
+            $(".knob").knob({
+                change : function (value) {
+                    slideToVec(value);run();
+                    // console.log("change : " + value);
+                },
+                release : function (value) {
+                    slideToVec(value);run();
+                    // console.log("change : " + value);
+                }
+            });
+        });
+    </script>
+
 </head>
 
 <body>
     <!-- TABLE -->
-    <center>
         
-        <table>
+        <table style="margin:0 auto;">
             <tr>
                 <td>
                     <div id="window">
@@ -35,17 +52,19 @@
                 <td>
                     <table>
                         <tr>
-                            <td>Iteraciones:</td>
-                            <td><input type="number" step="1" min="1" max="1024" name="num_iter" value="12" id="num_iter" style='width:50px;' oninput="run()"></td>
+                            <td colspan="2">Iteraciones: <span id="iterTxt"></span><br>
+                            <input type="range" step="1" min="1" max="1024" name="num_iter" value="12" id="num_iter" style='width:300px;' oninput="run()"></td>
                         </tr>
                         <tr>
                             <td>Ángulo</td>
-                            <td><!--input type="range" min="0" max="360" step="1" value="36" class="slider" id="theta" oninput="document.getElementById('thetatxt').value=this.value;slideToVec(this.value);run()"--><input style="width:80px;" type="number" step="1" value="36" min="0" max="360" id="theta" oninput="slideToVec(this.value);run()"><select title="Resolución del ángulo" style="width:60px;" name="angleresolution" id="angleresolution" onchange="document.getElementById('theta').step=parseFloat(this.value)">
+                            <td>
+                                <input id="theta" class="knob" data-bgColor="#000" data-fgColor="#fe9" data-cursor=true data-step=0.1 data-thickness=1.0 data-min=1 data-max=360 data-width="100" data-displayInput=true value="36">
+                                <!--input type="range" min="0" max="360" step="1" value="36" class="slider" id="theta" oninput="document.getElementById('thetatxt').value=this.value;slideToVec(this.value);run()"--><!--input style="width:80px;" type="number" step="1" value="36" min="0" max="360" id="theta" oninput="slideToVec(this.value);run()"--><!--select title="Resolución del ángulo" style="width:60px;" name="angleresolution" id="angleresolution" onchange="document.getElementById('theta').step=parseFloat(this.value)">
                                 <option value="10.0">10</option>
                                 <option value="1.0" selected>1</option>
                                 <option value="0.1">0.1</option>
                                 <option value="0.01">0.01</option>
-                            </select></td>
+                            </select--></td>
                             <!--td class="slidecontainer" colspan=2>Blue<input type="range" min="0" max="360" value="180" class="slider" id="theta" oninput="slideToVec_blue(this.value)"></td-->
                         </tr>
                         <tr style="display:none;">
@@ -105,9 +124,11 @@
                 </td>
             </tr>
         </table>
-    </center>
     
+<script>
+    document.getElementById('num_iter').addEventListener('input', function(){ document.getElementById('iterTxt').innerHTML = this.value; });
 
+</script>
     <!--CHART AREA -->
     <!--div id='chart'>
         <canvas id="chart_canvas" resize="true"></canvas>

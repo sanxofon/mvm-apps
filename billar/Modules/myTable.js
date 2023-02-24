@@ -999,7 +999,9 @@ exportSVG = function(){
     saveAs(blob, 'billiard.svg');
 }
 
+
 run = function(){
+    
     var table_shape = document.querySelector('input[name="table_shape"]:checked').value;
     // console.log("run:",table_shape);
 
@@ -1265,9 +1267,9 @@ window.onload = function() {
     drawPoly();
 
     document.getElementById('b_table').onclick = function (env) {
-        console.log(env,this);
+        // console.log(env,this);
         var rect = this.getBoundingClientRect();
-        console.log(rect.top, rect.right, rect.bottom, rect.left);
+        // console.log(rect.top, rect.right, rect.bottom, rect.left);
         cx = rect.left;
         cy = rect.top-24; // Hack
         // console.log(cx,cy);

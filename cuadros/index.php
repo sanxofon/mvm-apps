@@ -9,8 +9,14 @@
 <body>
     <div class="container">
         <h1>Cuadros mágicos</h1>
+        <div><select id="cuadroNum">
+        <option value="3">3 x 3 : [1-9] => 15</option>
+        <option value="4">4 x 4 : [1-16] => 34</option>
+        <option value="5">5 x 5 : [1-25] => 65</option>
+        <option value="6">6 x 6 : [1-36] => 111</option>
+        </select></div>
         <?php for($m=3;$m<=6;$m++){ $mm = $m*$m; ?>
-        <div class="cuadro">
+        <div class="cuadro" id="cuadro<?php echo $m; ?>">
             <div class="grid">
                 <div id="grid<?php echo $m."x".$m; ?>">
                 <?php for($i=1;$i<=$mm;$i++){ ?>
@@ -30,6 +36,23 @@
 <script src="app.js.php"></script>
 
 <script type="text/javascript">
+let cuadroNum = 3;
+document.getElementById('cuadroNum').value=cuadroNum;
+function changeCuadroNum(cuadroNum){
+  cuadroNum = parseInt(cuadroNum);
+  for (let i = 3; i <= 6; i++) {
+    if(i!=cuadroNum) {
+      document.getElementById('cuadro'+String(i)).style.display='none';
+    } else {
+      document.getElementById('cuadro'+String(i)).style.display='block';
+    }
+  }
+}
+document.getElementById('cuadroNum').addEventListener('change', function(){
+  changeCuadroNum(this.value);
+});
+changeCuadroNum(cuadroNum);
+
 //mobile viewport hack
 (function(){
 

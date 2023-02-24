@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html><head>
+ 
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>AnimCubeJS - the Rubik's Cube Animation Simulator</title>
+<script src="AnimCube3.js"></script>
+<script src="config.js"></script>
+
+<style>
+body, html {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0px 5%; 
+}
+
+.cube {display: inline-block}
+
+</style>
+</head>
+
+<body>
+
+    <!-- <div class="cube" style="width:320px; height:372px"> <script>AnimCube3("colorscheme=wygbor&move={Aprieta play...} R {para realizar...} U' {los movimientos.} L F {Permite animación...} U' {y manipulación...} R2 U2 {del cubo rubik} R U R' U2 D' L D F2 L2 U&initrevmove=#&bgcolor=FFFFFF&butbgcolor=99AACC&movetext=5&metric=2&fonttype=0&snap=1&buttonheight=20");</script><canvas style="width: 318px; height: 370px;" width="318" height="370"></canvas></div> -->
+    <div class="cube" style="width:319px; height:319px"> <script>AnimCube3("colorscheme=wygbor&move=R U' L&initrevmove=#&bgcolor=FFFFFF&butbgcolor=99AACC&movetext=5&hinthoriz=3.7&hint=6&metric=20&fonttype=0&snap=1&buttonheight=20");</script><canvas style="width: 319px; height: 319px;" width="319" height="319"></canvas></div>
+<script>
+    setTimeout(function(){
+        document.getElementsByTagName('body')[0].append(
+            '<div class="cube" style="width:319px; height:319px"> <script>AnimCube3("colorscheme=wygbor&move=R U L&initrevmove=#&bgcolor=FFFFFF&butbgcolor=99AACC&movetext=5&hinthoriz=3.7&hint=6&metric=20&fonttype=0&snap=1&buttonheight=20");</script><canvas style="width: 319px; height: 319px;" width="319" height="319"></canvas></div>');
+    },3000);
+</script>
+</body>
+</html>

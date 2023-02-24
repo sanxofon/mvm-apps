@@ -35,10 +35,13 @@ let nFrames = 100; // num of frames to record (10-100 definido en HTML)
 let recording = false;
 let rFrames = 0; // recorde frames so far
 
-function preload(d) {
+function getTimestampInSeconds () {
+    return Math.floor(Date.now() / 1000)
+}
+function preload(f) {
     HME.createH264MP4Encoder().then(enc => {
         encoder = enc
-        encoder.outputFilename = "MVM_Kaleidoscopio_"+d
+        encoder.outputFilename = "MVM_Kaleidoscopio_"+f
         encoder.width = cWidth
         encoder.height = cHeight
         encoder.frameRate = fr
@@ -71,7 +74,6 @@ else if(params.a=='a'){algoritmo = 'agua';} // Tipo de algoritmo
 else if(params.a=='e'){algoritmo = 'espejo';} // Tipo de algoritmo
 else{algoritmo = 'kaleidoscopio';}
 // ------------------------------------------
-
 // FUNCIONES
 function setup() {
     // Foto timer
@@ -227,7 +229,7 @@ function draw() {
 
                 var nx = filtrado[listindex+1]; // Ojo que la X va en el segundo índice (1)
                 var ny = filtrado[listindex+0]; //  y la Y en el  primero (0) o si no la imagen aparece de lado
-                if (y>=240)nx=width-nx;
+                // if (y>=240)nx=width-nx; //  Espejo hacia abajo
                 var newindex = (nx + ny * width)*4;
                 
                 // Creamos la copia
@@ -314,15 +316,17 @@ function draw() {
             anchor.click();
             encoder.delete();
 
-            preload((new Date()).getTime() / 1000); // reinitialize encoder
+            // console.log("getTimestampInSeconds:",getTimestampInSeconds());
+            preload(getTimestampInSeconds()); // reinitialize encoder
         }
     }
 }
 // Toma la foto
 function doFoto(f) {
+    var name = "MVM_Kaleidoscopio_"+f;
     if(ti===false) { // Si es la cámara frontal toma la foto y a lavarse!
         document.getElementById('countdown').style.display='none';
-        saveCanvas(cnv, 'kaleidoscope', 'jpg');
+        saveCanvas(cnv, name, 'jpg');
     } else { // Si no, le da 3 segundos al usuario para poner cara
         clearInterval(st);
         sti = 3;
@@ -332,7 +336,6 @@ function doFoto(f) {
             if (sti<=0) {
                 clearInterval(st);
                 document.getElementById('countdown').style.display='none';
-                var name = "MVM_Kaleidoscopio_"+f;
                 saveCanvas(cnv, name, 'jpg');
             } else {
                 document.getElementById('countdown').innerHTML = sti;
