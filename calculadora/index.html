@@ -321,6 +321,17 @@ function doFullScreen() {
         screen.orientation.lock('landscape');
     }
 }
+// Escalas
+function setNotas(e) {
+    if(e=='blues8')             return [ 'C', 'D',  'Eb', 'E', 'F',  'Gb', 'G',  'A',  'Bb' ]; //Blues 8
+    else if(e=='blues9')        return [ 'C', 'Eb', 'E',  'F', 'Gb', 'G',  'A',  'Bb', 'B'  ]; //Blues 9
+    else if(e=='arabe5')        return [ 'C', 'Db', 'Eb', 'E', 'F',  'G',  'Ab', 'Bb', 'B'  ]; //Árabe 5
+    else if(e=='nonatonica')    return [ 'C', 'D',  'Eb', 'E', 'Gb', 'G',  'Ab', 'A',  'B'  ]; //Nonatónica
+    else if(e=='messianica')    return [ 'C', 'Db', 'D',  'E', 'F',  'Gb', 'G',  'A',  'Bb' ]; //Messianica 1, Youlan
+    else if(e=='genus')         return [ 'C', 'Db', 'Eb', 'E', 'F',  'G',  'Ab', 'A',  'B'  ]; //Genus chromaticum, Tcherepnin
+    else if(e=='taishikicho')   return [ 'C', 'D',  'E',  'F', 'Gb', 'G',  'A',  'Bb', 'B'  ]; //Taishikicho
+    else                        return [ 'C', 'D',  'Eb', 'E', 'F',  'G',  'A',  'Bb', 'B'  ]; //Mixoblues
+}
 
 // Constantes y variables definidas
 var precision = 200;
@@ -335,17 +346,8 @@ let bmp_rampInit = 10; // tempo de inicio del acelerando
 let duraNota="4n"; // 2n, 4n, 8n
 let duraNotaLoop="4n"; // Resolution
 let octava = '4';
-const notas = {
-    '1':'C',
-    '2':'D',
-    '3':'Eb',
-    '4':'E',
-    '5':'F',
-    '6':'G',
-    '7':'A',
-    '8':'Bb',
-    '9':'B'
-};
+let escala = "blues8"; // "blues8","blues9","mixoblues","taishikicho"
+let notas = setNotas(escala);
 let euler = new Decimal(1);
 euler = euler.naturalExponential();
 let pi = Decimal.acos(-1);
@@ -438,11 +440,12 @@ function showConfig() {
 function closeConfig() {
     document.getElementById('config-container').style.display='none';
 }
-function playNota(nota='') {
+function playNota(nota=0) {
+    nota = parseInt(nota);
     if(nota>0){
-        nota=notas[nota]+octava;
-        // console.log("Play nota:",nota);
-        synth.triggerAttackRelease(nota, "8n");
+        var notaout=notas[nota-1]+octava;
+        console.log("Play nota:",nota,notaout);
+        synth.triggerAttackRelease(notaout, "8n");
     }
 }
 function dis(l) {
@@ -588,10 +591,10 @@ const parse = () => {
     var iTone = 0;
     loop = new Tone.Loop(time => {
         resarr[iTone]=String(resarr[iTone]);
-        let nota='';
-        if(resarr[iTone]>0) {
-            nota=notas[resarr[iTone]]+octava;
-            synth.triggerAttackRelease(nota, duraNota, time);
+        let nota=parseInt(resarr[iTone]);
+        if(nota>0) {
+            let notaout=notas[nota-1]+octava;
+            synth.triggerAttackRelease(notaout, duraNota, time);
         }
         salida.value += resarr[iTone];
         salida.scrollTop = salida.scrollHeight; // Scroll to bottom

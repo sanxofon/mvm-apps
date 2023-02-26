@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="manifest" href="manifest.json">
+<title>Merenguero</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+<div class="container">
+    <div class="coin" id="coin">
+        <div class="heads">
+            <img src="aguila.png">
+        </div>
+        <div class="tails">
+            <img src="sol.png">
+        </div>
+    </div>
+        <div class="stats">
+            <p id="heads-count">Águila: 0 (0%)</p>
+            <p id="tails-count">Sol: 0 (0%)</p>
+        </div>
+    <div class="buttons">
+        <button id="flip-button">
+            Bolado
+        </button>
+        <button id="reset-button">
+            Borrar
+        </button>
+    </div>
+</div>
+<script src='merenguero.js'></script>
+
+</body>
+</html>
