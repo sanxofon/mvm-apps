@@ -25,14 +25,37 @@ body{
     display: flex;
     color: #101020;
     font-weight: 500;
-    padding: 20px;
+    padding: 0;
     margin-bottom: 40px;
-    margin-top: 55px;
+    /* margin-top: 55px; */
     box-shadow: 0 0 20px rgba(0,0,0,0.25);
 
 }
-.stats p:nth-last-child(1){
-  margin-left: 50%;
+.stats p {
+    width: 50%;
+    padding-top:12px;
+    padding-bottom:12px;
+    margin:0;
+}
+.stats p.izq {
+    margin-left: 20px;
+    text-align: left;
+}
+.stats p.der{
+  margin-right: 20px;
+  text-align: right;
+}
+.stats p.ctr {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 25px;
+    text-align: center;
+}
+big {
+    vertical-align: middle;
+    height: 28px;
+    line-height: 18px;
+    font-size: 28px;
 }
 #porcentaje {
   text-align:center;
