@@ -122,3 +122,38 @@ button{
     background-color: #674706;
     color: white;
 }
+.ctr {
+    width:150px;
+}
+progress#pbi {
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+    width: 50%;
+    height: 10px;
+    background-color: transparent;
+    direction: rtl;
+}
+progress#pbi::-moz-progress-bar {
+    background: #ff2200;
+}
+progress#pbd {
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+    width: 50%;
+    height: 10px;
+    background-color: transparent;
+}
+progress#pbd::-moz-progress-bar {
+    background: #7fff00;
+}
+progress::-webkit-progress-bar {
+    background: transparent;
+}
+progress#pbi::-webkit-progress-value {
+    background: #ff2200;
+}
+progress#pbd::-webkit-progress-value {
+    background: #7fff00;
+}

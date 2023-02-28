@@ -14,7 +14,6 @@
     <script type="text/javascript" src="./Modules/FileSaver.js"></script>
     <!--script type="text/javascript" src="./Modules/Chart.bundle.js"></script-->
     <!-- Define inlined PaperScript associate it with b_table -->
-    <script type="text/javascript" src="./Modules/myTable.js" canvas = "b_table"></script>
     
     <link rel="stylesheet" type="text/css" href="style.css">
 
@@ -108,9 +107,15 @@
                         <tr>
                             <td colspan="2">
                                 <button onclick="run()" id="run"> OK </button>
+                                
+                                <input type="button" value="Agregar paredes" onclick="agregaPared=document.getElementById('numParedes').value">
+                                <input id="numParedes" type="number" min="2" max="12" step="1" value="2" class="ancho40">
+                                <input id="cerrado" type="checkbox">
+                                
                                 <div class="dropdown">
-                                    <button onclick="myFunction()" class="dropbtn">Paredes</button>
+                                    <button onclick="showDropdown()" class="dropbtn">Paredes</button>
                                     <div id="myDropdown" class="dropdown-content">
+                                        <a href="#" id="addPoly" onclick="agregaPared=2">Agregar con clics</a>
                                         <a href="#" id="addPoly" onclick="addPoly()">Agregar Varias</a>
                                         <a href="#" id="addPoint" onclick="addWall()">Agregar Pared</a>
                                         <a href="#" id="clear" onclick="clearAll()">Vaciar Todo</a>
@@ -124,16 +129,15 @@
                 </td>
             </tr>
         </table>
+        <!--CHART AREA -->
+        <!--div id='chart'>
+            <canvas id="chart_canvas" resize="true"></canvas>
+        </div-->
     
+<script type="text/javascript" src="./Modules/billar.js" canvas = "b_table"></script>
 <script>
-    document.getElementById('num_iter').addEventListener('input', function(){ document.getElementById('iterTxt').innerHTML = this.value; });
-
+document.getElementById('num_iter').addEventListener('input', function(){ document.getElementById('iterTxt').innerHTML = this.value; });
 </script>
-    <!--CHART AREA -->
-    <!--div id='chart'>
-        <canvas id="chart_canvas" resize="true"></canvas>
-    </div-->
 </body>
-
 </html>
 

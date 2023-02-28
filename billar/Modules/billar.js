@@ -142,7 +142,7 @@ slideToVec = function(theta){
 
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
-function myFunction() {
+function showDropdown() {
   document.getElementById("myDropdown").classList.toggle("show");
 }
 
@@ -934,7 +934,7 @@ vecFromPts = function(x, y){
 
 
 drawCircle = function(){
-    envSetup();
+    envSetup(true);
     
     var r = math.min([window_size])*0.4;
 
@@ -1036,16 +1036,18 @@ shiftPt = function(pt, delta){
     return math.add(pt, delta);
 }
 
-envSetup = function(){
+envSetup = function(dontclean=false){
 	//ENVSETUP
-    paper.clear();
+    if(!dontclean){
+        paper.clear();
 
-    paper.setup('b_table');
+        paper.setup('b_table');
+    }
 	
-    // w = parseInt(document.getElementById('table_width').value);
-    // h = parseInt(document.getElementById('table_width').value);
-    w = 400;
-    h = 300;
+        // w = parseInt(document.getElementById('table_width').value);
+        // h = parseInt(document.getElementById('table_width').value);
+        w = 400;
+        h = 300;
 	
 	theta = document.getElementById('theta').value;
 	
@@ -1113,38 +1115,32 @@ addWall0 = function(pt){
 		wall_ID = "WalNum" + wall_count;
 		wall_count+=1;
 		var wall_path = drawPath(start, end, 'black', false);
-		
 		wall_lst[wall_ID] = [start.concat(end), wall_path];
-		
-		var dropdown_lst = document.getElementById('myDropdown');
-						   	
+		var dropdown_lst = document.getElementById('myDropdown');			   	
 		dropdown_lst.innerHTML += "<a href='#' id='" + wall_ID + "' onclick='removeWall(\""+ wall_ID + "\")'>" + wall_str + "</a>";
-		
 	}else{console.log("Incorect format");}
-	
+	// xxx
 }
 
 addWall = function(){
 	var pt = prompt("Enter Coordinate (x0, y0), (x1, y1): ");
 	if (pt != null && pt != ''){
-		pt = pt.replace(/[\(\)]/g, '');
+        addWall0(pt);
+		/* pt = pt.replace(/[\(\)]/g, '');
 		pt = pt.split(',');	
 		var start = parseCord(pt.slice(0,2).join(','));
 		var end  = parseCord(pt.slice(2,4).join(','));
         var wall_str = "(" + start  + ') - (' + end + ")";
-		var wall_str2 = "(" + start  + '), (' + end + ")";
+		// var wall_str2 = "(" + start  + '), (' + end + ")";
 		
 		if (pt.length == 4){
 			wall_ID = "WalNum" + wall_count;
 			wall_count+=1;
 			var wall_path = drawPath(start, end, 'black', false);
-			
 			wall_lst[wall_ID] = [start.concat(end), wall_path];
-			
-			var dropdown_lst = document.getElementById('myDropdown');
-							   	
+			var dropdown_lst = document.getElementById('myDropdown');			   	
 			dropdown_lst.innerHTML += "<a href='#' id='" + wall_ID + "' onclick='removeWall(\""+ wall_ID + "\")'>" + wall_str + "</a>";
-		}else{alert("Incorect format");}
+		}else{alert("Incorect format");} */
 	}
 }
 
@@ -1252,6 +1248,43 @@ addRegularPolygon = function(sides=3,radius=150,x=0,y=0) {
     addWall0(puntos[0]+', '+puntos[sides-1]);
 }
 
+function addManyWalls(pt,close=false) {
+	pt = pt.replace(/[\(\)]/g, '');
+	pt = pt.split(',');
+    for (let i = 3; i < pt.length; i+=2) {
+        addWall0(pt[i-3]+','+pt[i-2]+','+pt[i-1]+','+pt[i]);
+    }
+    if(close){
+        addWall0(pt[pt.length-2]+','+pt[pt.length-1]+','+pt[0]+','+pt[1]);
+    }
+}
+
+let agregaPared = 0;
+let memWall = [];
+function setPoint(t,env) {
+    // console.log(env,this);
+    var rect = t.getBoundingClientRect();
+    // console.log(rect.top, rect.right, rect.bottom, rect.left);
+    cx = rect.left;
+    cy = rect.top-24; // Hack
+    rx = env.layerX-cx-(window_size[0]/2);
+    ry = (window_size[1]/2)-env.layerY-cy;
+    console.log(rx,ry);
+    if(agregaPared==1) {
+        memWall.push(rx,ry);
+        addManyWalls(memWall.join(','),document.getElementById('cerrado').checked);
+        agregaPared=0;
+        memWall=[];
+    }else if(agregaPared>1){
+        memWall.push(rx,ry);
+        agregaPared--;
+
+    }else document.getElementById('position').value = rx+','+ry;
+    run();
+}
+document.getElementById('b_table').onclick = function (env) {
+    setPoint(this,env);
+}
 window.onload = function() {
   	envSetup();
     // addrandtrianglewall();
@@ -1266,16 +1299,4 @@ window.onload = function() {
     addRegularPolygon(3);
     drawPoly();
 
-    document.getElementById('b_table').onclick = function (env) {
-        // console.log(env,this);
-        var rect = this.getBoundingClientRect();
-        // console.log(rect.top, rect.right, rect.bottom, rect.left);
-        cx = rect.left;
-        cy = rect.top-24; // Hack
-        // console.log(cx,cy);
-        rx = env.layerX-cx-(window_size[0]/2);
-        ry = (window_size[1]/2)-env.layerY-cy;
-        document.getElementById('position').value = rx+','+ry;
-        run();
-    }
 }

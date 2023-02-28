@@ -4,6 +4,9 @@ body {
     //overflow: hidden;
     height: 100%;
 }
+.ancho40 {
+  width: 40px;
+}
 
 /* Scale canvas with resize attribute to full size */
 canvas[resize] {
