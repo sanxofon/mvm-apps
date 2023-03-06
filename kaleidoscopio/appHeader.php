@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, user-scalable=0, minimal-ui">
 	<script>
 	var viewport = document.querySelector("meta[name=viewport]");
-	var ratio = window.innerWidth/522;
+	var ratio = window.innerWidth/480;
 	// alert(ratio);
 	viewport.setAttribute( 'content', 'initial-scale=' + ratio );
 	</script>
