@@ -99,9 +99,9 @@ $ancho_logo=60;
 				<input type="image" src="img/grabar.png" style="width:90px;" class="botimg" id="bVideo" title="Grabar Video">
 			</div>
 			<div class="w3-padding">
-				<input type="image" src="img/reload.png" style="width:50px;" class="botimg" id="bSwitch" title="Cámara Forntal/Trasera">
-				<input type="image" src="img/timer.png" style="width:50px;margin-left:5px;margin-right:5px;" class="botimg" id="ti" title="Timer: 3s">
-				<input type="image" src="img/filtro.png" style="width:50px;" class="botimg" id="bFiltro" title="Filtros">
+				<input type="image" src="img/timer.png" style="width:50px;margin-right:5px;" class="botimg" id="ti" title="Timer: 3s">
+				<input type="image" src="img/flip.png" style="width:50px;display:none;" class="botimg" id="bSwitch" title="Cámara Forntal/Trasera">
+				<input type="image" src="img/filtro.png" style="width:50px;margin-left:5px;" class="botimg" id="bFiltro" title="Filtros">
 			</div>
 			<br>
 			<div class="w3-padding">
