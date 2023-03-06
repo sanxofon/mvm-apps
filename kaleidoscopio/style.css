@@ -5,36 +5,36 @@ a, a:focus, a:hover { color: #fff; }
 /* Base structure */
 html,
 body {
-	margin: 0;
-  height: 100%;
-	padding: 0;
+    margin: 0;
+    height: 100%;
+    padding: 0;
     background-color: #000;
-    text-align: center;
+    /* text-align: center; */
     color: #fff;
     font-size: 14pt;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Courier Prime', monospace;
 }
 .maxw720 {width:100%;max-width:720px;}
 .w3-red:active,.w3-red:hover{
     background-color: red!important;
 }
 #cuerpo {
-    min-width: 522px;
+    min-width: 480px;
     width: 100%;
-    max-width: 783px;
+    max-width: 883px;
     margin: 0 auto;
     position: relative;
+    background-color: #222;
 }
 #contenedor {
-    width: 522px;
-    height: 522px;
+    width: 480px;
+    height: 480px;
 }
 #derecha {
     padding: 20px;
-    width: 260px;
+    width: 360px;
     text-align: center;
-    /* background-color: #222; */
+    background-color: #222;
     border-bottom-right-radius: 10px;
 }
 #countdown {
@@ -49,12 +49,12 @@ body {
     height: 100px;
     font-size: 100px;
     line-height: 100%;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Courier Prime', monospace;
     font-weight: bold;
     opacity: 0.5;
     display: none;
     transition: opacity 1s ease-in-out;
-
+    
     animation-name: fade;
     animation-fill-mode: both;
     animation-iteration-count: infinite;
@@ -86,7 +86,7 @@ label input {
         border-bottom-left-radius: 10px;
     }
     #cuerpo {
-        width: 522px;
+        width: 480px;
         margin: 0;
     }
 }
@@ -112,10 +112,141 @@ sm {
 }
 @keyframes fade{
     0%,50% {
-      opacity: 0;
-}
+        opacity: 0;
+    }
     100%{
-      opacity: 1;
-  }
+        opacity: 1;
+    }
+}
+
+
+/*SCROLL BARS*/
+.styled-scrollbars {
+    /* scrollbar-color: auto; */
+    scrollbar-color: #999 #333; /* Two valid colors.
+    The first applies to the thumb of the scrollbar, the second to the track. */
+}
+.styled-scrollbars::-webkit-scrollbar {
+    width: 10px; /* Mostly for vertical scrollbars */
+    height: 10px; /* Mostly for horizontal scrollbars */
+}
+.styled-scrollbars::-webkit-scrollbar-thumb { /* Foreground */
+    background: #888;
+}
+.styled-scrollbars::-webkit-scrollbar-track { /* Background */
+    background: #222323;
+}
+.amarillo {
+    background-color: #ffc001;
+    color:#000;
+}
+.grisoscuro {
+    background-color: #222323;
+    color:#fff;
+}
+/* LAYOUT */
+.w3-bar .w3-button {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    font-family: 'Courier Prime', monospace;
+}
+.lateral-container {
+    height:100%;
+    float:right;
+    background-color:#ffc001;
+}
+.lateral-sidebar {
+    width: 460px; /* ancho_sidebar + ancho_logo */
+    right:0;
+    z-index:100;
+    background-color:transparent;
+    display:none;
+}
+.lateral-boton-close,
+.lateral-boton-open {
+    width: 60px; /* ancho_logo */
+}
+.lateral-boton-close {
+    position:absolute;
+    top:0;
+    right: 400px; /* ancho_sidebar */
+    cursor:pointer;
+}
+.lateral-boton-open {
+    z-index:99;
+    position:fixed;
+    top:0;
+    right:0;
+    cursor:pointer;
+}
+.lateral-container,.lateral-header,
+.lateral-main,.lateral-footer,
+.lateral-footer-img {
+    width:400px; /* ancho_sidebar */
+}
+.lateral-header {
+    position:absolute;
+    top:0;
+    right:0;
+    background-color:#222323;
+    height:122px;
+}
+.lateral-main {
+    position:absolute;
+    top:122px;
+    bottom:92px;
+    right:0;
+    overflow:auto;
+}
+.lateral-footer {
+    position:absolute;
+    bottom:0;
+    right:0;
+    height:127px;
+}
+/* LAYOUT HORIZONTAL GRANDE */
+@media (min-width:800px) {
+    .lateral-sidebar {
+        width: 660px; /* ancho_sidebar + ancho_logo */
+    }
+    .lateral-boton-close {
+        right: 600px; /* ancho_sidebar */
+    }
+    .lateral-container,.lateral-header,
+    .lateral-main,.lateral-footer,
+    .lateral-footer-img {
+        width:600px; /* ancho_sidebar */
+    }
+    .lateral-main {
+        bottom:138px;
+    }
+    .lateral-footer {
+        height:191px;
+    }
+}
+
+/* BOTONES */
+.botimg {
+    display:inline;
+    border-radius:100%;
+    background-color: #000;
+}
+.botimg:hover {
+    background-color: #444;
+}
+.botimg:active {
+    background-color: #222;
+}
+.activo {
+    background-color: #fff;
+}
+.activo:hover {
+    background-color: #ddd;
+}
+.activo:active {
+    background-color: #ddd;
+}
+.icoimg {
+    border-radius:100%;
 }
 

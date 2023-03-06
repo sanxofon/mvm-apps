@@ -77,9 +77,13 @@ else{algoritmo = 'kaleidoscopio';}
 // FUNCIONES
 function setup() {
     // Foto timer
-    if (getItem('ti')===true)ti=true;
-    else ti=false;
-    document.getElementById('ti').checked=ti;
+    if (getItem('ti')===true){
+        ti=true;
+        document.getElementById('ti').classList.add('activo');
+    }else{
+        ti=false;
+        document.getElementById('ti').classList.remove('activo');
+    }
 
     // Filtros disponibles. Se llenan con constantes definidas hasta el setup
     filtros = [
@@ -427,20 +431,70 @@ document.getElementById('fr').addEventListener("change", function() {
 });
 
 // Mp4 record
-document.getElementById('bVideo').addEventListener("click", function() {
-    
+document.getElementById('bVideo').addEventListener("click", function() {    
     if(recording!=true){
-        this.value = "● GRABANDO";
-        this.classList.add("w3-red");
-        recording = true;
+        if(ti===false) { // Si no hay time wait
+            this.value = "● GRABANDO";
+            this.classList.add("w3-red");
+            recording = true;
+        } else { // Si hay time wait, le da 3 segundos al usuario para poner cara
+            clearInterval(st);
+            sti = 3;
+            document.getElementById('countdown').style.display='block';
+            document.getElementById('countdown').innerHTML = '<sm>&#128247;</sm>';
+            st = setInterval(function(){
+                if (sti<=0) {
+                    clearInterval(st);
+                    document.getElementById('countdown').style.display='none';
+                    
+                    document.getElementById('bVideo').value = "● GRABANDO";
+                    document.getElementById('bVideo').classList.add("w3-red");
+                    recording = true;
+
+                } else {
+                    document.getElementById('countdown').innerHTML = sti;
+                    sti--;
+                }    
+            },1000);
+        }
+
     }else{
         this.value = "DETENIENDO";
         nFrames = rFrames+1;
     }
 });
-document.getElementById('ti').addEventListener("change", function() {
-    if(this.checked)ti=true;
-    else ti=false;
+document.getElementById('ti').addEventListener("click", function() {
+    ti=!ti;
+    if (ti===true){
+        document.getElementById('ti').classList.add('activo');
+    }else{
+        document.getElementById('ti').classList.remove('activo');
+    }
     storeItem('ti',ti);
 });
 
+/*  --------------- INICIO MENU  ---------------  */
+
+function w3_open() {
+    document.getElementById("MVMSidebar").style.display = "block";
+}
+  
+function w3_close() {
+    document.getElementById("MVMSidebar").style.display = "none";
+}
+
+/*  ---------------  LATERAL TABS  -----------------  */
+
+function openTabs(evt, tabName) {
+  var i, x, tablinks;
+  x = document.getElementsByClassName("lateral-tab");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("lateral-tablink");
+  for (i = 0; i < x.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" amarillo", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " amarillo";
+}
