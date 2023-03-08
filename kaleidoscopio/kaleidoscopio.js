@@ -28,7 +28,6 @@ let filtro = 0; // ïndice del filtro actual
 let filtros = []; // Filtros disponibles (se llena en setup)
 let ti = true; // Timer de 3 segundos antes de la foto
 
-
 // Record as MP4
 let encoder;
 let nFrames = 100; // num of frames to record (10-100 definido en HTML)
@@ -75,7 +74,28 @@ else if(params.a=='e'){algoritmo = 'espejo';} // Tipo de algoritmo
 else{algoritmo = 'kaleidoscopio';}
 // ------------------------------------------
 // FUNCIONES
+function dofullscreen(){
+    if (!document.fullscreenElement && md.mobile()) {
+        document.documentElement.requestFullscreen();
+        // screen.orientation.lock('portrait');
+    }
+}
 function setup() {
+
+    Swal.fire({
+        title: '',
+        imageUrl: '',
+        imageWidth: 400,
+        // imageHeight: 200,
+        // imageAlt: 'Custom image',
+        html: '<img onclick="Swal.close()" src="img/titulo.png" style="width:100%" title="Caleidoscopio">',
+        showCloseButton: false,
+        showConfirmButton: false,
+        showCancelButton: false,
+        focusConfirm: false,
+    });
+
+
     // Foto timer
     if (getItem('ti')===true){
         ti=true;
@@ -472,29 +492,3 @@ document.getElementById('ti').addEventListener("click", function() {
     }
     storeItem('ti',ti);
 });
-
-/*  --------------- INICIO MENU  ---------------  */
-
-function w3_open() {
-    document.getElementById("MVMSidebar").style.display = "block";
-}
-  
-function w3_close() {
-    document.getElementById("MVMSidebar").style.display = "none";
-}
-
-/*  ---------------  LATERAL TABS  -----------------  */
-
-function openTabs(evt, tabName) {
-  var i, x, tablinks;
-  x = document.getElementsByClassName("lateral-tab");
-  for (i = 0; i < x.length; i++) {
-    x[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("lateral-tablink");
-  for (i = 0; i < x.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" amarillo", "");
-  }
-  document.getElementById(tabName).style.display = "block";
-  evt.currentTarget.className += " amarillo";
-}

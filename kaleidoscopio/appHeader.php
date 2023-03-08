@@ -2,13 +2,21 @@
 <html lang="es" xml:lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, user-scalable=0, minimal-ui">
+  <!-- <meta name="viewport" content="width=480, minimal-ui,initial-scale=1"> -->
 	<script>
-	var viewport = document.querySelector("meta[name=viewport]");
+/* 	var viewport = document.querySelector("meta[name=viewport]");
 	var ratio = window.innerWidth/480;
 	// alert(ratio);
-	viewport.setAttribute( 'content', 'initial-scale=' + ratio );
-	</script>
+	viewport.setAttribute( 'content', 'initial-scale=' + ratio ); */
+var viewport = document.createElement("meta");
+viewport.setAttribute("name", "viewport");
+if (screen.width < 450) {
+    viewport.setAttribute("content", "width=480,user-scalable=0");
+} else {
+    viewport.setAttribute("content", "width=device-width, initial-scale=1,user-scalable=0");
+}
+document.head.appendChild(viewport);
+  </script>
 	<style>@viewport {
 		viewport-fit: auto;
 	}</style>
@@ -53,9 +61,6 @@
   <meta name="twitter:creator" content="<?php echo $app_authorTwitter; ?>">
   <meta name="twitter:image:src" content="<?php echo $app_server.$app_path; ?>img/app.jpg">
   
-  <!-- mathjax.org -->
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <!-- Modales y alertas -->
   <script src="sweetalert2.min.js"></script>
   
@@ -71,7 +76,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alata&family=Anton&family=Courier+Prime&display=swap" rel="stylesheet">
   <style>
-    body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
+    body,h1,h2,h3,h4,h5,h6 {font-family: "Alata", sans-serif;}
     body, html {
       height: 100%;
       color: #777;

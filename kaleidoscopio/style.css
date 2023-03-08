@@ -13,6 +13,7 @@ body {
     color: #fff;
     font-size: 14pt;
     font-family: 'Courier Prime', monospace;
+    
 }
 .maxw720 {width:100%;max-width:720px;}
 .w3-red:active,.w3-red:hover{
@@ -135,94 +136,6 @@ sm {
 }
 .styled-scrollbars::-webkit-scrollbar-track { /* Background */
     background: #222323;
-}
-.amarillo {
-    background-color: #ffc001;
-    color:#000;
-}
-.grisoscuro {
-    background-color: #222323;
-    color:#fff;
-}
-/* LAYOUT */
-.w3-bar .w3-button {
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-    font-family: 'Courier Prime', monospace;
-}
-.lateral-container {
-    height:100%;
-    float:right;
-    background-color:#ffc001;
-}
-.lateral-sidebar {
-    width: 460px; /* ancho_sidebar + ancho_logo */
-    right:0;
-    z-index:100;
-    background-color:transparent;
-    display:none;
-}
-.lateral-boton-close,
-.lateral-boton-open {
-    width: 60px; /* ancho_logo */
-}
-.lateral-boton-close {
-    position:absolute;
-    top:0;
-    right: 400px; /* ancho_sidebar */
-    cursor:pointer;
-}
-.lateral-boton-open {
-    z-index:99;
-    position:fixed;
-    top:0;
-    right:0;
-    cursor:pointer;
-}
-.lateral-container,.lateral-header,
-.lateral-main,.lateral-footer,
-.lateral-footer-img {
-    width:400px; /* ancho_sidebar */
-}
-.lateral-header {
-    position:absolute;
-    top:0;
-    right:0;
-    background-color:#222323;
-    height:122px;
-}
-.lateral-main {
-    position:absolute;
-    top:122px;
-    bottom:92px;
-    right:0;
-    overflow:auto;
-}
-.lateral-footer {
-    position:absolute;
-    bottom:0;
-    right:0;
-    height:127px;
-}
-/* LAYOUT HORIZONTAL GRANDE */
-@media (min-width:800px) {
-    .lateral-sidebar {
-        width: 660px; /* ancho_sidebar + ancho_logo */
-    }
-    .lateral-boton-close {
-        right: 600px; /* ancho_sidebar */
-    }
-    .lateral-container,.lateral-header,
-    .lateral-main,.lateral-footer,
-    .lateral-footer-img {
-        width:600px; /* ancho_sidebar */
-    }
-    .lateral-main {
-        bottom:138px;
-    }
-    .lateral-footer {
-        height:191px;
-    }
 }
 
 /* BOTONES */
