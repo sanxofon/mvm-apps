@@ -162,4 +162,6 @@ sm {
 .icoimg {
     border-radius:100%;
 }
-
+.swal2-popup {
+    background: transparent!important;
+}

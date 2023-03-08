@@ -88,7 +88,7 @@ function setup() {
         imageWidth: 400,
         // imageHeight: 200,
         // imageAlt: 'Custom image',
-        html: '<img onclick="Swal.close()" src="img/titulo.png" style="width:100%" title="Caleidoscopio">',
+        html: '<img onclick="Swal.close()" src="img/titulo_circular.png" style="width:100%;cursor: pointer;" title="Caleidoscopio">',
         showCloseButton: false,
         showConfirmButton: false,
         showCancelButton: false,
