@@ -2,6 +2,27 @@
 <html>
 <head>
 <meta charset="utf-8">
+<script>
+    /* 	var viewport = document.querySelector("meta[name=viewport]");
+        var ratio = window.innerWidth/480;
+        // alert(ratio);
+        viewport.setAttribute( 'content', 'initial-scale=' + ratio ); */
+    const isMobile = localStorage.mobile || window.navigator.maxTouchPoints > 1;
+    if (isMobile){
+        var viewport = document.createElement("meta");
+        viewport.setAttribute("name", "viewport");
+        if(window.innerHeight > window.innerWidth) {
+        
+            viewport.setAttribute("content", "width=400,user-scalable=0");
+        } else {
+            viewport.setAttribute("content", "width=800,user-scalable=0");
+        }
+        document.head.appendChild(viewport);
+    }
+      </script>
+        <style>@viewport {
+            viewport-fit: auto;
+        }</style>
 <link rel="manifest" href="manifest.json">
 <title>Calculadora sonora</title>
 <script src='decimal.js'></script>
@@ -16,16 +37,19 @@ body {
 * {
   font-size: 16pt;
   font-family: 'Courier New', Courier, monospace;
+  vertical-align: top;
 }
 #input1,#input2 {
     background-color: transparent;
     color: #fff;
-    width: 400px;
+    width: 390px;
     border:none;
     font-size: 2em;
     text-align: center;
     border: 1px solid #222;
     border-radius: 3px;
+    display: block;
+    margin: 0 auto;
 }
 hr {
     border: none;
@@ -39,13 +63,15 @@ hr {
 }
 #output {
     background-color: #222;
-    height: 320px;
-    width: 360px;
+    height: 300px;
+    width: 380px;
     padding:4px;
     overflow: auto;
     border:none;
     font-size: 2em;
     color:#fff;
+    display: block;
+    margin: 0 auto;
 }
 .centro table {
     margin: 0 auto;
@@ -115,11 +141,11 @@ td input:active {
     border:2px solid #ddd;
     width:30px;
     height:30px;
-    font-size: 32px!important;
+    font-size: 28px!important;
     line-height: 100%;
     cursor: pointer;
     text-align: center;
-    border-radius: 3px;
+    border-radius: 6px;
     position: absolute;
     right: 10px;
     top:10px;
@@ -128,23 +154,15 @@ td input:active {
     border:2px solid #999;
 }
 
-#config-container{
-    position: fixed;
-    overflow: hidden;
-    top:0;
-    left:0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0,0,0,0.75);
-}
 #config {
     position: absolute;
     left: 50vw;
     top: 5vh;
-    width: 400px;
-    margin-left:-200px;
+    width: 340px;
+    margin-left:-180px;
     background-color: #444;
     border: 1px solid #999;
+    border-radius: 6px;
     color: #fff;
     padding-top: 8px;
     padding-bottom: 16px;
@@ -168,7 +186,7 @@ td input:active {
     margin-left: 8px;
     margin-right: 8px;
 }
-#start-container {
+/* #start-container {
     position: fixed;
     overflow: hidden;
     top:0;
@@ -176,7 +194,7 @@ td input:active {
     width: 100vw;
     height: 100vh;
     background-color: rgb(0,0,0);
-}
+} */
 #start {
     position: fixed;
     left: 50vw;
@@ -210,119 +228,124 @@ td input:active {
 </style>
 </head>
 <body>
-<div id="start-container" onclick="doFullScreen()">
-    <img id="start" src="android-chrome-192x192.png">
-</div>
-<div id="config-container">
-<div id="config">
-    <div id="config-close" onclick="closeConfig()">&#10006;</div>
-    <h1>&#9881; Configuración</h1>
-    <div class="margen">
-        <div><label for="volumen"><b class="grande">Volumen</b> <input style="width:260px" id="volumen" type="range" value="-12" min="-50" max="0" step="1"></label></div>
-        <div><label for="precision"><b class="grande">Precisión máximo dígitos</b> <input id="precision" type="number" value="100" min="10" max="1000" step="1"></label></div>
-        <div><label for="hearKeys"><b class="grande">Notas en el teclado</b> <input id="hearKeys" type="checkbox"></label></div>
-        <div><label for="duraNota"><b class="grande">Duración c/Nota</b> <select id="duraNota"><option value="2n">2n</option><option value="4n">4n</option><option value="8n">8n</option></select></label></div>
-        <div><label for="duraNotaLoop"><b class="grande">Duración c/Loop</b> <select id="duraNotaLoop"><option value="2n">2n</option><option value="4n">4n</option><option value="8n">8n</option></select></label></div>
-        <div><label for="tempo"></label><b class="grande">Tempo en bmp</b> <input id="tempo" type="number" value="" min="60" max="1200" step="1"></label>
-        <fieldset id="rampField" disabled>
-            <legend><label for="rampON"><h3>Acelerar <input id="rampON" type="checkbox"></h3></label></legend>
-            <div><label for="rampTo"><b>Tempo final en bmp</b> <input id="rampTo" type="number" value="" min="60" max="1600" step="1"></label></div>
-            <div><label for="rampTime"><b>Duración en segundos</b> <input id="rampTime" type="number" value="" min="1" max="50" step="1"></label></div>
-            <div><label for="rampInit"><b>Iniciar en tempo</b> <input id="rampInit" type="number" value="" min="1" max="50" step="1"></label></div>
-        </fieldset></div>
-    </div>
-</div>
-</div>
-<div class="centro">
-    <table><tr><td>
-        <div>
-            <input readonly size="15" placeholder="0" type="text" id="input1" pattern="[0-9.+\-*/^() PIE]+" value="" inputmode='none'>
-            <hr>
-            <input readonly size="15" placeholder="1" type="text" id="input2" pattern="[0-9.+\-*/^() PIE]+" value="" inputmode='none'>
+<!-- <div id="completo"> -->
+    <!-- <div id="start-container" onclick="checkRotation()">
+        <img id="start" src="android-chrome-192x192.png">
+    </div> -->
+    <div id="config-container">
+        <div id="config">
+            <div id="config-close" onclick="closeConfig()">&#10006;</div>
+            <h1>&#9881; Configuración</h1>
+            <div class="margen">
+                <div><label for="volumen"><b class="grande">Volumen</b> <input style="width:260px" id="volumen" type="range" value="-12" min="-50" max="0" step="1"></label></div>
+                <div><label for="precision"><b class="grande">Precisión máximo dígitos</b> <input id="precision" type="number" value="100" min="10" max="1000" step="1"></label></div>
+                <div><label for="hearKeys"><b class="grande">Notas en el teclado</b> <input id="hearKeys" type="checkbox"></label></div>
+                <div><label for="duraNota"><b class="grande">Duración c/Nota</b> <select id="duraNota"><option value="2n">2n</option><option value="4n">4n</option><option value="8n">8n</option></select></label></div>
+                <div><label for="duraNotaLoop"><b class="grande">Duración c/Loop</b> <select id="duraNotaLoop"><option value="2n">2n</option><option value="4n">4n</option><option value="8n">8n</option></select></label></div>
+                <div><label for="tempo"></label><b class="grande">Tempo en bmp</b> <input id="tempo" type="number" value="" min="60" max="1200" step="1"></label>
+                <fieldset id="rampField" disabled>
+                    <legend><label for="rampON"><h3>Acelerar <input id="rampON" type="checkbox"></h3></label></legend>
+                    <div><label for="rampTo"><b>Tempo final en bmp</b> <input id="rampTo" type="number" value="" min="60" max="1600" step="1"></label></div>
+                    <div><label for="rampTime"><b>Duración en segundos</b> <input id="rampTime" type="number" value="" min="1" max="50" step="1"></label></div>
+                    <div><label for="rampInit"><b>Iniciar en tempo</b> <input id="rampInit" type="number" value="" min="1" max="50" step="1"></label></div>
+                </fieldset></div>
+            </div>
         </div>
-        <table class="topall"><tbody><tr>
-            <td>
-                <table id="calcu">
-                    <tbody>
-                    <tr>
-                        <!-- create button and assign value to each button -->
-                        <!-- dis("1") will call function dis to display value -->
-                        <td><input type="button" value="7" onclick="dis('7')"> </td>
-                        <td><input type="button" value="8" onclick="dis('8')"> </td>
-                        <td><input type="button" value="9" onclick="dis('9')"> </td>
-                    </tr>
-                    <tr>
-                        <td><input type="button" value="4" onclick="dis('4')"> </td>
-                        <td><input type="button" value="5" onclick="dis('5')"> </td>
-                        <td><input type="button" value="6" onclick="dis('6')"> </td>
-                    </tr>
-                    <tr>
-                        <td><input type="button" value="1" onclick="dis('1')"> </td>
-                        <td><input type="button" value="2" onclick="dis('2')"> </td>
-                        <td><input type="button" value="3" onclick="dis('3')"> </td>
-                    </tr>
-                    <tr>
-                        <td><input style="background-color:cyan;" type="button" value="&#9881;" onclick="showConfig()"> </td>
-                        <td><input type="button" value="0" onclick="dis('0')"> </td>
-                        <td><input type="button" value="." onclick="dis('.')"> </td>
-                    </tr>
-                </tbody></table>
-            </td>
-            <td>
-                <table id="calcu">
-                    <tbody><tr>
-                        <td><input style="background-color:gold;" type="button" value="&#x232B;" onclick="backspace()"></td>
-                        <td><input style="background-color:coral;" type="button" value="C" onclick="clearSome()"></td>
-                        <td colspan="2"><input style="background-color:firebrick;" type="button" value="CA" onclick="clearAll();" class="botondoble"></td>
-                    </tr>
-                    <tr>
-                        <td><input type="button" value="+" onclick="dis('+')"> </td>
-                        <td><input type="button" value="-" onclick="dis('-')"> </td>
-                        <td><input type="button" value="&#960;" onclick="dis('PI')" style="font-style: italic;font-family: Arial, sans-serif;"> </td>
-                        <td><input type="button" value="e" onclick="dis('E')" style="font-style: italic;font-family: Arial, sans-serif;"> </td>
-                    </tr>
-                    <tr>
-                        <td><input type="button" value="*" onclick="dis('*')"> </td>
-                        <td><input type="button" value="/" onclick="dis('/')"> </td>
-                        <td><input type="button" value="(" onclick="dis('(')"> </td>
-                        <td><input type="button" value=")" onclick="dis(')')"> </td>
-                    </tr>
-                    <tr>
-                        <td><input type="button" value="^" onclick="dis('^')"> </td>
-                        <td><input type="button" value="&radic;" onclick="dis('^(1/2)')"> </td>
-                        <td colspan="2"><input style="background-color: chartreuse;" type="button" value="=" onclick="parse()" class="botondoble"> </td>
-                    </tr>
-                </tbody></table>
-            </td>
-        </tr></tbody></table>
-    </td>
-    <td class="igual">=</td>
-    <td>
-        <textarea id="output" readonly></textarea>
-        <div id="datos"></div>
-    </td></tr></table>
-</div>
-<div id="todo">
-    <h3>To Do List:</h3>
-    <ol>
-        <li>Ceros infinitos al final</li>
-        <li>Fade out al final</li>
-        <li>Memorizar operaciones interesantes y poderlas abrir y compartir</li>
-        <li>Escribir con el teclado en una PC</li>
-        <li>Usar números de extensión ilimitada en los <i>inputs</i></li>
-    </ol>
-</div>
+    </div>
+    <div class="centro">
+        <!-- <table><tr><td> -->
+        <div style="display:inline-block;width:400px;">
+            <div>
+                <input readonly size="15" placeholder="0" type="text" id="input1" pattern="[0-9.+\-*/^() PIE]+" value="" inputmode='none'>
+                <hr>
+                <input readonly size="15" placeholder="1" type="text" id="input2" pattern="[0-9.+\-*/^() PIE]+" value="" inputmode='none'>
+            </div>
+            <table class="topall"><tbody><tr>
+                <td>
+                    <table id="calcu">
+                        <tbody>
+                        <tr>
+                            <!-- create button and assign value to each button -->
+                            <!-- dis("1") will call function dis to display value -->
+                            <td><input type="button" value="7" onclick="dis('7')"> </td>
+                            <td><input type="button" value="8" onclick="dis('8')"> </td>
+                            <td><input type="button" value="9" onclick="dis('9')"> </td>
+                        </tr>
+                        <tr>
+                            <td><input type="button" value="4" onclick="dis('4')"> </td>
+                            <td><input type="button" value="5" onclick="dis('5')"> </td>
+                            <td><input type="button" value="6" onclick="dis('6')"> </td>
+                        </tr>
+                        <tr>
+                            <td><input type="button" value="1" onclick="dis('1')"> </td>
+                            <td><input type="button" value="2" onclick="dis('2')"> </td>
+                            <td><input type="button" value="3" onclick="dis('3')"> </td>
+                        </tr>
+                        <tr>
+                            <td><input style="background-color:cyan;" type="button" value="&#9881;" onclick="showConfig()"> </td>
+                            <td><input type="button" value="0" onclick="dis('0')"> </td>
+                            <td><input type="button" value="." onclick="dis('.')"> </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+                <td>
+                    <table id="calcu">
+                        <tbody><tr>
+                            <td><input style="background-color:gold;" type="button" value="&#x232B;" onclick="backspace()"></td>
+                            <td><input style="background-color:coral;" type="button" value="C" onclick="clearSome()"></td>
+                            <td colspan="2"><input style="background-color:firebrick;" type="button" value="CA" onclick="clearAll();" class="botondoble"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="button" value="+" onclick="dis('+')"> </td>
+                            <td><input type="button" value="-" onclick="dis('-')"> </td>
+                            <td><input type="button" value="&#960;" onclick="dis('PI')" style="font-style: italic;font-family: Arial, sans-serif;"> </td>
+                            <td><input type="button" value="e" onclick="dis('E')" style="font-style: italic;font-family: Arial, sans-serif;"> </td>
+                        </tr>
+                        <tr>
+                            <td><input type="button" value="*" onclick="dis('*')"> </td>
+                            <td><input type="button" value="/" onclick="dis('/')"> </td>
+                            <td><input type="button" value="(" onclick="dis('(')"> </td>
+                            <td><input type="button" value=")" onclick="dis(')')"> </td>
+                        </tr>
+                        <tr>
+                            <td><input type="button" value="^" onclick="dis('^')"> </td>
+                            <td><input type="button" value="&radic;" onclick="dis('^(1/2)')"> </td>
+                            <td colspan="2"><input style="background-color: chartreuse;" type="button" value="=" onclick="parse()" class="botondoble"> </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr></tbody></table>
+        </div><div style="display:inline-block;width:400px;">
+        <!-- </td>
+        <td class="igual">=</td>
+        <td> -->
+            <textarea id="output" readonly></textarea>
+            <div id="datos"></div>
+        <!-- </td></tr></table> -->
+        </div>
+    </div>
+    <!-- <div id="todo" style="display: none;">
+        <h3>To Do List:</h3>
+        <ol>
+            <li>Ceros infinitos al final</li>
+            <li>Fade out al final</li>
+            <li>Memorizar operaciones interesantes y poderlas abrir y compartir</li>
+            <li>Escribir con el teclado en una PC</li>
+            <li>Usar números de extensión ilimitada en los <i>inputs</i></li>
+        </ol>
+    </div> -->
+<!-- </div> -->
 <script>
-const isMobile = localStorage.mobile || window.navigator.maxTouchPoints > 1;
-if(isMobile)document.getElementById('todo').style.display='None';
-else document.getElementById('start-container').style.display='None';
-function doFullScreen() {
+// if(isMobile)document.getElementById('todo').style.display='None';
+// else document.getElementById('start-container').style.display='None';
+/* function doFullScreen() {
     document.getElementById('start-container').style.display='None';
     if (!document.fullscreenElement && isMobile) {
         document.documentElement.requestFullscreen();
         screen.orientation.lock('landscape');
     }
-}
+} */
+
 // Escalas
 function setNotas(e) {
     if(e=='blues8')             return [ 'C', 'D',  'Eb', 'E', 'F',  'Gb', 'G',  'A',  'Bb' ]; //Blues 8
@@ -451,7 +474,7 @@ function playNota(nota=0) {
     }
 }
 function dis(l) {
-    doFullScreen();
+    // doFullScreen();
     if(hearKeys)playNota(l);
     // console.log("Entrada:",entrada);
     let el = document.getElementById('input'+entrada);
@@ -616,7 +639,13 @@ const parse = () => {
 
     var now = Tone.now();
 };
-
+/* function checkRotation(){
+    // document.getElementById('start-container').style.display='None';
+    if(isMobile && window.innerHeight > window.innerWidth){
+        document.getElementById('completo').classList.add('rotar');
+    }
+}
+checkRotation(); */
 </script>
 </body>
 </html>
