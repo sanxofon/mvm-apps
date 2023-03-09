@@ -13,18 +13,18 @@ include("appHeader.php");
 			</div>
 			<div class="w3-padding">
 				<input type="image" src="img/timer.png" style="width:50px;margin-right:15px;" class="botimg" id="ti" title="Timer: 3s">
-				<input type="image" src="img/flip.png" style="width:60px;" class="botimg" id="bSwitch" title="Cámara Forntal/Trasera">
+				<input type="image" src="img/flip.png" style="width:60px;display:none;" class="botimg" id="bSwitch" title="Cámara Forntal/Trasera">
 				<input type="image" src="img/filtro.png" style="width:50px;margin-left:15px;" class="botimg" id="bFiltro" title="Filtros">
 			</div>
 			<br>
 			<div class="w3-padding">
 				<img src="img/algoritmo.png" class="icoimg" style="width: 50px;" title="Selecciona un Algoritmo">
-				<select title="Selecciona un Algoritmo" class="w3-black w3-round" style="border:none;height:40px;width:140px;" onchange="window.location='?a='+this.value;">
+				<select id="selAlgo" title="Selecciona un Algoritmo" class="w3-black w3-round" style="border:none;height:40px;width:140px;">
 					<option value="" disabled selected>Algoritmo</option>
-					<option value="k">Kaleidoscopio</option>
-					<option value="e">Espejo</option>
-					<option value="a">Agua</option>
-					<option value="t">Hiperbólica</option>
+					<option value="kaleidoscopio">Caleidoscopio</option>
+					<option value="espejo">Espejo</option>
+					<option value="agua">Agua</option>
+					<option value="hiperbolico">Hiperbólica</option>
 				</select>
 			</div>
 			<div class="w3-padding">

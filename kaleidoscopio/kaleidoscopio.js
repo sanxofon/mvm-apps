@@ -2,9 +2,9 @@
 Kaleidoscopio del Museo Virtual de Matemáticas (México)
 !@license Copyright 2022, Santiago Chávez Novaro, License: MIT, see https://github.com/sanxofon/mvm
 */
-const params = new Proxy(new URLSearchParams(window.location.search), {
+/* const params = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => searchParams.get(prop),
-});
+}); */
 let md = new MobileDetect(window.navigator.userAgent); // mobile-detect.min.js
 let p=0.0,w=0,h=0; // Proporción, Ancho, Alto
 let cWidth=0,cHeight=0; // Ancho y alto del Canvas
@@ -27,7 +27,7 @@ let lista=[],jumpthis=[]; // Lista de posiciones y Lista de índices
 let filtro = 0; // ïndice del filtro actual
 let filtros = []; // Filtros disponibles (se llena en setup)
 let ti = true; // Timer de 3 segundos antes de la foto
-
+let inicio = true;
 // Record as MP4
 let encoder;
 let nFrames = 100; // num of frames to record (10-100 definido en HTML)
@@ -67,11 +67,13 @@ isSC = [
         audio: false
     }
 ];
-let algoritmo;
-if(params.a=='t'){algoritmo = 'test';} // Tipo de algoritmo
-else if(params.a=='a'){algoritmo = 'agua';} // Tipo de algoritmo
-else if(params.a=='e'){algoritmo = 'espejo';} // Tipo de algoritmo
-else{algoritmo = 'kaleidoscopio';}
+let algoritmo='kaleidoscopio';
+const algoritmos = ['kaleidoscopio','espejo','agua','hiperbolico'];
+
+// if(params.a=='t'){algoritmo = 'hiperbolico';} // Tipo de algoritmo
+// else if(params.a=='a'){algoritmo = 'agua';} // Tipo de algoritmo
+// else if(params.a=='e'){algoritmo = 'espejo';} // Tipo de algoritmo
+// else{algoritmo = 'kaleidoscopio';}
 // ------------------------------------------
 // FUNCIONES
 function dofullscreen(){
@@ -81,19 +83,21 @@ function dofullscreen(){
     }
 }
 function setup() {
-
-    Swal.fire({
-        title: '',
-        imageUrl: '',
-        imageWidth: 400,
-        // imageHeight: 200,
-        // imageAlt: 'Custom image',
-        html: '<img onclick="Swal.close()" src="img/titulo_circular.png" style="width:100%;cursor: pointer;" title="Caleidoscopio">',
-        showCloseButton: false,
-        showConfirmButton: false,
-        showCancelButton: false,
-        focusConfirm: false,
-    });
+    if(inicio){
+        inicio=false;
+        Swal.fire({
+            title: '',
+            imageUrl: '',
+            imageWidth: 400,
+            // imageHeight: 200,
+            // imageAlt: 'Custom image',
+            html: '<img onclick="Swal.close()" src="img/titulo_circular.png" style="width:100%;cursor: pointer;" title="Caleidoscopio">',
+            showCloseButton: false,
+            showConfirmButton: false,
+            showCancelButton: false,
+            focusConfirm: false,
+        });
+    }
 
 
     // Foto timer
@@ -134,8 +138,9 @@ function setup() {
     document.getElementById('zo').value = vWidth; // Cambia el valor del elemento en el dom
 
     let tama = 480; // Tamaño de los lados del canvas final
+    console.log(algoritmo);
 
-    if (algoritmo=='test') {
+    if (algoritmo=='hiperbolico') {
         p = 1; // cuadrado
         w = tama; // Ancho de la máscara
         h = Math.ceil(p * w); // Alto de la máscara
@@ -204,7 +209,7 @@ function setup() {
     mascara = createGraphics(w, h); //crea un renderizador fuera de pantalla
     // mascara.noStroke();
     mascara.beginShape();
-    if (algoritmo=='test') {
+    if (algoritmo=='hiperbolico') {
         zoom(640);
         mascara.rect(0, 0, w, h); // agregando un poco más para ocultar los bordes
     } else if (algoritmo=='espejo') {
@@ -227,7 +232,7 @@ function draw() {
         slice = capture.get((vWidth-w)/2,vHeight/2-h/2, w, h);
         slice.mask(mascara);
         
-        if (algoritmo=='test') {
+        if (algoritmo=='hiperbolico') {
             /* translate(originx, originy);
             // applyMatrix(-1, 0, 0, 1, w/2, 0);
             
@@ -448,6 +453,16 @@ document.getElementById('zo').addEventListener("change", function() {
 });
 document.getElementById('fr').addEventListener("change", function() {
     changeFrameRate(this.value);
+});
+document.getElementById('selAlgo').addEventListener("change",function(){
+    // window.location='?a='+this.value;
+    if(this.value!='' && algoritmos.includes(this.value)){
+        algoritmo=this.value;
+        this.value='';
+        cnv.remove();
+        capture.remove();
+        setup();
+    }
 });
 
 // Mp4 record
