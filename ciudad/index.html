@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swiper Article</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css"/>
+    
+</head>
+<body>
+    
+<div class="container">
+    
+    <!-- Swiper -->
+    <div class="swiper">
+        <div class="parallax-bg" style="background-image:url(parallax.png);background-size:contain;background-repeat:repeat-x;" data-swiper-parallax="-50%"></div>
+        <div class="swiper-wrapper"></div>
+        <!-- Add Pagination -->
+        <!-- <div class="swiper-pagination"></div> -->
+        <!-- Add Arrows -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+    <p class="append-buttons">
+        <!-- <a href="#" class="prepend-slide">Prepend Slide</a> -->
+        <a href="#" onclick="gotoslide(-10)">Slide -10</a>
+        <a href="#" onclick="gotoslide(0)">Slide 0</a>
+        <a href="#" onclick="gotoslide(10)">Slide 10</a>
+        <!-- <a href="#" class="append-slide">Append Slide</a> -->
+    </p>
+        
+</div>
+    
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <script src="ciudad.js"></script>
+</body>
+</html>

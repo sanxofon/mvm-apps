@@ -56,8 +56,37 @@ function updateStats(aos=1,end=false){
     else if(p3>0)document.querySelector("#pbd").value = p3*20;
 
     if(end && !infinito){
-        if(last==aos)Swal.fire("Ganaste", `Te llevas un merengue gratis! :)`,"success");
-        else if(last==aos)Swal.fire("Perdiste", `Compras un merengue por dos monedas :(`,"error");
+        if(last==aos) {
+            Swal.fire({
+                title: '<strong>Ganaste</strong>',
+                // icon: 'info',
+                imageUrl: 'merenguero0.png',
+                imageWidth: 400,
+                // imageHeight: 400,
+                imageAlt: 'Ganaste',
+                html: '<b>Te llevas un merengue gratis! :)</b>',
+                showCloseButton: true,
+                showCancelButton: false,
+                focusConfirm: true,
+                confirmButtonText: 'Cerrar',
+                confirmButtonAriaLabel: 'Cerrar'
+            });
+        } else {
+            Swal.fire({
+                title: '<strong>Perdiste</strong>',
+                // icon: 'info',
+                imageUrl: 'merenguero2.png',
+                imageWidth: 400,
+                // imageHeight: 400,
+                imageAlt: 'Perdiste',
+                html: '<b>Compras un merengue por dos monedas :(</b>',
+                showCloseButton: true,
+                showCancelButton: false,
+                focusConfirm: true,
+                confirmButtonText: 'Cerrar',
+                confirmButtonAriaLabel: 'Cerrar'
+            });
+        }
     }
 }
 function disableButton(){
@@ -69,15 +98,17 @@ function disableButton(){
 }
 function merenguero(fast=false){
     if(fast==true || infinito){
+        // Solo tira el bolado, el usuario por default elige águila
         bolado(1,true);
     }else{
+        // Permite elegir si comprar un merengue o jugar doble o nada
         Swal.fire({
             title: '<strong>Merenguero</strong>',
-            icon: 'info',
-            // imageUrl: 'https://unsplash.it/400/200',
-            // imageWidth: 400,
+            // icon: 'info',
+            imageUrl: 'merengues.png',
+            imageWidth: 400,
             // imageHeight: 200,
-            // imageAlt: 'Custom image',
+            imageAlt: 'Merenguero',
             html: '<b>¿Así que quieres comprar un merengue?</b><br>1 merengue cuesta 1 moneda<br>Pero te juego <b>"doble o nada"</b>. Si ganas el bolado el merengue te sale gratis, pero si pierdes te cuesta el doble (2 monedas).',
             showCloseButton: true,
             showCancelButton: true,
@@ -88,13 +119,14 @@ function merenguero(fast=false){
             cancelButtonAriaLabel: 'Del nabo :('
         }).then((result) => {
             if (result.isConfirmed) {
+                // Permite elegir un lado de la moneda cuando aceptamos el doble o nada
                 Swal.fire({
                     title: '<strong>Águila o Sol</strong>',
-                    icon: 'info',
-                    // imageUrl: 'https://unsplash.it/400/200',
-                    // imageWidth: 400,
+                    // icon: 'info',
+                    imageUrl: 'tiramoneda.png',
+                    imageWidth: 300,
                     // imageHeight: 200,
-                    // imageAlt: 'Custom image',
+                    imageAlt: 'Águila o Sol',
                     html: '<b>Elige un lado de la moneda</b>',
                     showCloseButton: true,
                     showCancelButton: true,
@@ -104,17 +136,30 @@ function merenguero(fast=false){
                     cancelButtonText: 'Sol',
                     cancelButtonAriaLabel: 'Sol'
                 }).then((result) => {
-                    if (result.isConfirmed) { // Águila
+                    if (result.isConfirmed) { // Usuario elige Águila
                         bolado(1);
-                    } else if (result.dismiss === Swal.DismissReason.cancel) { // Sol
+                    } else if (result.dismiss === Swal.DismissReason.cancel) { // Usuario elige Sol
                         bolado(-1);
                     }
                 });
             } else if (result.dismiss === Swal.DismissReason.cancel) {
+                // El usuario eligió comprar su merengue simplemente por una moneda
                 merengues++;
                 monedas++;
                 updateStats();
-                Swal.fire("Merengue", `Tome su merengue`,"success");
+                Swal.fire({
+                    title: 'Tome su merengue',
+                    imageUrl: 'merenguero1.png',
+                    imageWidth: 400,
+                    // imageHeight: 400,
+                    imageAlt: 'Tome su merengue',
+                    // html: '<b>Tome su merengue</b>',
+                    showCloseButton: true,
+                    showCancelButton: false,
+                    focusConfirm: false,
+                    confirmButtonText: 'Cerrar',
+                    confirmButtonAriaLabel: 'Cerrar'
+                });
             }
         });
     }
