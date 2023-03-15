@@ -16,5 +16,5 @@ const factorizar = async (n) => {
 
 onmessage = async function(event) {
   const n = parseInt(event.data);
-  postMessage(await factorizar(n));
+  postMessage( {'n':n,'factores':await factorizar(n)});
 }
