@@ -13,4 +13,4 @@ $app_server = "";                   // Servidor donde la app está alojada (DNS 
 require_once("../is_localhost.php");
 // Ruta absoluta a la app desde la raíz del servidor (debe empezar y terminar en "/")
 if(is_localhost())$app_path = "/museomates/mvm-apps/".$app_shortname."/";
-else$app_path = "/mvm-apps/".$app_shortname."/";  
+else$app_path = "/apps/".$app_shortname."/";  
